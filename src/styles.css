@@ -62,26 +62,37 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
+  --radius: 1rem;
+  /* Mujahadat an-Nafs — deep night with emerald + gold */
+  --background: oklch(0.16 0.012 150);
+  --foreground: oklch(0.95 0.015 90);
+  --card: oklch(0.20 0.015 150 / 0.6);
+  --card-foreground: oklch(0.95 0.015 90);
+  --popover: oklch(0.18 0.015 150);
+  --popover-foreground: oklch(0.95 0.015 90);
+  --primary: oklch(0.78 0.16 90);            /* gold */
+  --primary-foreground: oklch(0.18 0.02 150);
+  --secondary: oklch(0.55 0.13 160);         /* emerald */
+  --secondary-foreground: oklch(0.98 0.01 90);
+  --muted: oklch(0.25 0.015 150 / 0.6);
+  --muted-foreground: oklch(0.70 0.02 90);
+  --accent: oklch(0.78 0.16 90);
+  --accent-foreground: oklch(0.18 0.02 150);
+  --destructive: oklch(0.62 0.20 25);
+  --destructive-foreground: oklch(0.98 0.01 90);
+  --border: oklch(0.40 0.04 150 / 0.35);
+  --input: oklch(0.25 0.02 150 / 0.6);
+  --ring: oklch(0.78 0.16 90 / 0.5);
+  /* Tone tokens — bound to current nafs tone */
+  --tone: oklch(0.62 0.20 25);            /* default: weak/red */
+  --tone-soft: oklch(0.62 0.20 25 / 0.15);
+  --tone-glow: oklch(0.62 0.20 25 / 0.35);
+  --gold: oklch(0.82 0.17 88);
+  --emerald: oklch(0.55 0.14 160);
+  --gradient-tone: linear-gradient(135deg, var(--tone) 0%, var(--gold) 100%);
+  --gradient-night: radial-gradient(ellipse at top, oklch(0.22 0.03 160) 0%, oklch(0.10 0.01 150) 70%);
+  --shadow-soft: 0 20px 60px -20px oklch(0 0 0 / 0.6);
+  --shadow-tone: 0 0 40px var(--tone-glow);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -138,7 +149,46 @@
   }
 
   body {
-    background-color: var(--color-background);
+    background: var(--gradient-night) fixed;
     color: var(--color-foreground);
+    font-family: "Tajawal", "Cairo", system-ui, -apple-system, sans-serif;
+    -webkit-tap-highlight-color: transparent;
   }
+
+  html { scroll-behavior: smooth; }
+
+  /* Tone classes — set tone vars based on stage */
+  .tone-weak     { --tone: oklch(0.62 0.20 25);  --tone-soft: oklch(0.62 0.20 25 / 0.14);  --tone-glow: oklch(0.62 0.20 25 / 0.35); }
+  .tone-rising   { --tone: oklch(0.68 0.16 55);  --tone-soft: oklch(0.68 0.16 55 / 0.14);  --tone-glow: oklch(0.68 0.16 55 / 0.30); }
+  .tone-awakening{ --tone: oklch(0.78 0.16 88);  --tone-soft: oklch(0.78 0.16 88 / 0.14);  --tone-glow: oklch(0.78 0.16 88 / 0.30); }
+  .tone-steady   { --tone: oklch(0.65 0.15 160); --tone-soft: oklch(0.65 0.15 160 / 0.14); --tone-glow: oklch(0.65 0.15 160 / 0.30); }
+  .tone-luminous { --tone: oklch(0.82 0.17 88);  --tone-soft: oklch(0.82 0.17 88 / 0.16);  --tone-glow: oklch(0.82 0.17 88 / 0.40); }
+
+  .glass {
+    background: oklch(0.18 0.015 150 / 0.55);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .tone-ring {
+    box-shadow: var(--shadow-tone);
+    border-color: var(--tone);
+  }
+
+  @keyframes shimmer {
+    0%, 100% { opacity: 0.35; }
+    50% { opacity: 0.8; }
+  }
+  .animate-shimmer { animation: shimmer 4s ease-in-out infinite; }
+
+  @keyframes slow-spin { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+  .animate-slow-spin { animation: slow-spin 60s linear infinite; }
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-up { animation: fade-up 0.4s ease-out both; }
 }
