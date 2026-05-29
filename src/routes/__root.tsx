@@ -72,14 +72,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
-      { title: "مجاهدة النفس — Mujāhadat an-Nafs" },
-      { name: "description", content: "تطبيق إسلامي لمحاسبة النفس وتتبع العبادات اليومية بمراحل النفس العشر، مع مرشد ذكي للجلد والتحفيز." },
+      { title: "نفس - Nafs" },
+      { name: "description", content: "تطبيق إسلامي لمحاسبة النفس وتتبع العبادات اليومية بمراحل النفس العشر، مع مرشد ذكي للتحفيز." },
       { name: "theme-color", content: "#0c1a14" },
-      { property: "og:title", content: "مجاهدة النفس" },
-      { property: "og:description", content: "ارتقِ من النفس الأمّارة إلى المطمئنّة. تتبع، حاسب، جاهد." },
+      { property: "og:title", content: "نفس - Nafs" },
+      { property: "og:description", content: "تطبيق إسلامي لمحاسبة النفس وتتبع العبادات اليومية بمراحل النفس العشر، مع مرشد ذكي للتحفيز." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "نفس - Nafs" },
+      { name: "twitter:description", content: "تطبيق إسلامي لمحاسبة النفس وتتبع العبادات اليومية بمراحل النفس العشر، مع مرشد ذكي للتحفيز." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/b34411bf-e3e1-4e97-b5a9-7a627a17337a" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/b34411bf-e3e1-4e97-b5a9-7a627a17337a" },
     ],
     links: [
       {
