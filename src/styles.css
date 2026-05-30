@@ -63,35 +63,39 @@
 
 :root {
   --radius: 1rem;
-  /* Mujahadat an-Nafs — deep night with emerald + gold */
-  --background: oklch(0.16 0.012 150);
-  --foreground: oklch(0.95 0.015 90);
-  --card: oklch(0.20 0.015 150 / 0.6);
-  --card-foreground: oklch(0.95 0.015 90);
-  --popover: oklch(0.18 0.015 150);
-  --popover-foreground: oklch(0.95 0.015 90);
-  --primary: oklch(0.78 0.16 90);            /* gold */
-  --primary-foreground: oklch(0.18 0.02 150);
-  --secondary: oklch(0.55 0.13 160);         /* emerald */
-  --secondary-foreground: oklch(0.98 0.01 90);
-  --muted: oklch(0.25 0.015 150 / 0.6);
-  --muted-foreground: oklch(0.70 0.02 90);
-  --accent: oklch(0.78 0.16 90);
-  --accent-foreground: oklch(0.18 0.02 150);
-  --destructive: oklch(0.62 0.20 25);
-  --destructive-foreground: oklch(0.98 0.01 90);
-  --border: oklch(0.40 0.04 150 / 0.35);
-  --input: oklch(0.25 0.02 150 / 0.6);
-  --ring: oklch(0.78 0.16 90 / 0.5);
-  /* Tone tokens — bound to current nafs tone */
-  --tone: oklch(0.62 0.20 25);            /* default: weak/red */
-  --tone-soft: oklch(0.62 0.20 25 / 0.15);
-  --tone-glow: oklch(0.62 0.20 25 / 0.35);
+  /* Mujahadat an-Nafs — deep obsidian night with rose/violet accents */
+  --background: oklch(0.08 0 0);
+  --foreground: oklch(0.96 0 0);
+  --card: oklch(0.13 0 0 / 0.85);
+  --card-foreground: oklch(0.96 0 0);
+  --popover: oklch(0.11 0 0);
+  --popover-foreground: oklch(0.96 0 0);
+  --primary: oklch(0.65 0.22 15);            /* rose */
+  --primary-foreground: oklch(0.98 0 0);
+  --secondary: oklch(0.62 0.20 295);         /* violet */
+  --secondary-foreground: oklch(0.98 0 0);
+  --muted: oklch(0.18 0 0 / 0.6);
+  --muted-foreground: oklch(0.55 0 0);
+  --accent: oklch(0.65 0.22 15);
+  --accent-foreground: oklch(0.98 0 0);
+  --destructive: oklch(0.65 0.22 15);
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: oklch(1 0 0 / 0.06);
+  --input: oklch(0.15 0 0 / 0.8);
+  --ring: oklch(0.65 0.22 15 / 0.4);
+  /* Brand accents */
+  --rose: oklch(0.65 0.22 15);
+  --rose-glow: oklch(0.65 0.22 15 / 0.35);
+  --violet: oklch(0.62 0.20 295);
+  --emerald: oklch(0.72 0.16 165);
   --gold: oklch(0.82 0.17 88);
-  --emerald: oklch(0.55 0.14 160);
-  --gradient-tone: linear-gradient(135deg, var(--tone) 0%, var(--gold) 100%);
-  --gradient-night: radial-gradient(ellipse at top, oklch(0.22 0.03 160) 0%, oklch(0.10 0.01 150) 70%);
-  --shadow-soft: 0 20px 60px -20px oklch(0 0 0 / 0.6);
+  --amber: oklch(0.78 0.17 70);
+  /* Tone tokens — bound to current nafs stage */
+  --tone: var(--rose);
+  --tone-soft: oklch(0.65 0.22 15 / 0.14);
+  --tone-glow: oklch(0.65 0.22 15 / 0.35);
+  --gradient-tone: linear-gradient(135deg, var(--tone) 0%, var(--violet) 100%);
+  --shadow-soft: 0 20px 60px -20px oklch(0 0 0 / 0.7);
   --shadow-tone: 0 0 40px var(--tone-glow);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
@@ -149,32 +153,56 @@
   }
 
   body {
-    background: var(--gradient-night) fixed;
+    background: var(--background);
     color: var(--color-foreground);
-    font-family: "Tajawal", "Cairo", system-ui, -apple-system, sans-serif;
+    font-family: "Cairo", "Tajawal", system-ui, -apple-system, sans-serif;
     -webkit-tap-highlight-color: transparent;
   }
 
   html { scroll-behavior: smooth; }
 
   /* Tone classes — set tone vars based on stage */
-  .tone-weak     { --tone: oklch(0.62 0.20 25);  --tone-soft: oklch(0.62 0.20 25 / 0.14);  --tone-glow: oklch(0.62 0.20 25 / 0.35); }
-  .tone-rising   { --tone: oklch(0.68 0.16 55);  --tone-soft: oklch(0.68 0.16 55 / 0.14);  --tone-glow: oklch(0.68 0.16 55 / 0.30); }
-  .tone-awakening{ --tone: oklch(0.78 0.16 88);  --tone-soft: oklch(0.78 0.16 88 / 0.14);  --tone-glow: oklch(0.78 0.16 88 / 0.30); }
-  .tone-steady   { --tone: oklch(0.65 0.15 160); --tone-soft: oklch(0.65 0.15 160 / 0.14); --tone-glow: oklch(0.65 0.15 160 / 0.30); }
+  .tone-weak     { --tone: oklch(0.65 0.22 15);  --tone-soft: oklch(0.65 0.22 15 / 0.14);  --tone-glow: oklch(0.65 0.22 15 / 0.35); }
+  .tone-rising   { --tone: oklch(0.62 0.20 295); --tone-soft: oklch(0.62 0.20 295 / 0.14); --tone-glow: oklch(0.62 0.20 295 / 0.30); }
+  .tone-awakening{ --tone: oklch(0.78 0.17 70);  --tone-soft: oklch(0.78 0.17 70 / 0.14);  --tone-glow: oklch(0.78 0.17 70 / 0.30); }
+  .tone-steady   { --tone: oklch(0.72 0.16 165); --tone-soft: oklch(0.72 0.16 165 / 0.14); --tone-glow: oklch(0.72 0.16 165 / 0.30); }
   .tone-luminous { --tone: oklch(0.82 0.17 88);  --tone-soft: oklch(0.82 0.17 88 / 0.16);  --tone-glow: oklch(0.82 0.17 88 / 0.40); }
 
   .glass {
-    background: oklch(0.18 0.015 150 / 0.55);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background: oklch(0.11 0 0 / 0.75);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
     border: 1px solid var(--color-border);
     box-shadow: var(--shadow-soft);
   }
 
   .tone-ring {
     box-shadow: var(--shadow-tone);
-    border-color: var(--tone);
+    border-color: oklch(from var(--tone) l c h / 0.4);
+  }
+
+  /* Ambient orbs */
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+  }
+  .orb-1 {
+    width: 60vw; max-width: 480px; height: 60vw; max-height: 480px;
+    top: -10%; right: -10%;
+    background: radial-gradient(circle, var(--tone-glow), transparent 70%);
+    animation: orb-drift 14s ease-in-out infinite alternate;
+  }
+  .orb-2 {
+    width: 55vw; max-width: 440px; height: 55vw; max-height: 440px;
+    bottom: 5%; left: -10%;
+    background: radial-gradient(circle, oklch(0.62 0.20 295 / 0.10), transparent 70%);
+    animation: orb-drift 18s ease-in-out infinite alternate-reverse;
+  }
+  @keyframes orb-drift {
+    0% { transform: translate(0,0) scale(1); }
+    100% { transform: translate(4%, 6%) scale(1.08); }
   }
 
   @keyframes shimmer {
