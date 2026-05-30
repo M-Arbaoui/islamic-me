@@ -91,11 +91,17 @@ function Index() {
   }
 
   return (
-    <div className={`min-h-screen tone-${stage.toneId} pb-28`}>
+    <div className={`relative min-h-screen tone-${stage.toneId} pb-28 overflow-hidden`}>
+      {/* Ambient background */}
+      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+        <div className="orb orb-1" />
+        <div className="orb orb-2" />
+      </div>
+
       {/* Header */}
-      <header className="sticky top-0 z-30 glass border-b border-border/40 px-4 py-3 flex items-center justify-between">
+      <header className="sticky top-0 z-30 max-w-md mx-auto glass border-b border-border/40 px-4 py-3 flex items-center justify-between rounded-b-2xl">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[var(--gold)] to-[var(--emerald)] flex items-center justify-center text-lg shadow-lg">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[var(--tone)] to-[var(--violet)] flex items-center justify-center text-lg shadow-lg shadow-[var(--tone-glow)]">
             ☪
           </div>
           <div>
