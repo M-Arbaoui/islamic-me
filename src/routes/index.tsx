@@ -27,7 +27,11 @@ function Index() {
   return (
     <AppShell title="مُجاهد النفس" subtitle="Mujāhid an-Nafs" toneId={s.stage.toneId}>
       <div className="space-y-4">
-        <StagePortrait stage={s.stage} streakDays={s.streakDays} />
+        <StagePortrait
+          stage={s.stage}
+          streakDays={s.streakDays}
+          startDate={s.state.startDate}
+        />
 
         {/* Progress to next rank */}
         <section className="glass rounded-2xl p-4 space-y-2">
