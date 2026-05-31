@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { AlertTriangle, RotateCcw } from "lucide-react";
 
 import { AppShell } from "@/components/AppShell";
+import { RankBadge } from "@/components/RankBadge";
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
@@ -84,17 +85,7 @@ function JourneyPage() {
                   key={st.index}
                   className={`flex items-center gap-3 px-5 py-3 ${current ? "bg-[var(--tone-soft)]" : ""}`}
                 >
-                  <div
-                    className={`w-9 h-9 rounded-xl flex items-center justify-center text-sm font-mono font-bold shrink-0 ${
-                      current
-                        ? "bg-gradient-to-br from-[var(--tone)] to-[var(--violet)] text-white shadow-lg shadow-[var(--tone-glow)]"
-                        : reached
-                          ? "bg-gradient-to-br from-[var(--gold)] to-[var(--emerald)] text-[oklch(0.18_0.02_150)]"
-                          : "bg-muted/60 text-muted-foreground border border-border/40"
-                    }`}
-                  >
-                    {reached ? "⚔" : st.index + 1}
-                  </div>
+                  <RankBadge tier={st.index} size={52} locked={!reached} />
                   <div className="flex-1 min-w-0 text-right">
                     <div
                       className={`text-sm font-bold truncate ${
