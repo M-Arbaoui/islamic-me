@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import type { Stage } from "@/lib/nafs-stages";
+import { RankBadge } from "@/components/RankBadge";
 
 type Props = {
   stage: Stage;
@@ -30,10 +31,10 @@ const TIERS: Tier[] = [
   { min: 365, name: "المنصور", english: "The Triumphant", emblem: "👑", cry: "سنةٌ من الصمود." },
 ];
 
-function getTier(days: number): Tier {
-  let t = TIERS[0];
-  for (const x of TIERS) if (days >= x.min) t = x;
-  return t;
+function getTierIndex(days: number): number {
+  let idx = 0;
+  for (let i = 0; i < TIERS.length; i++) if (days >= TIERS[i].min) idx = i;
+  return idx;
 }
 
 function useLiveElapsed(startIso: string) {
@@ -53,7 +54,8 @@ function useLiveElapsed(startIso: string) {
 
 export function StagePortrait({ stage, streakDays, startDate }: Props) {
   const { days, hours, minutes, seconds } = useLiveElapsed(startDate);
-  const tier = getTier(streakDays);
+  const tierIdx = getTierIndex(streakDays);
+  const tier = TIERS[tierIdx];
 
   return (
     <section className="glass rounded-[2rem] p-5 space-y-4 tone-ring relative overflow-hidden">
@@ -65,25 +67,18 @@ export function StagePortrait({ stage, streakDays, startDate }: Props) {
         }}
       />
 
-      {/* Streak badge */}
-      <div className="relative flex items-center justify-between gap-3">
-        <div
-          className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-[var(--tone)]/50 bg-[var(--tone-soft)] shadow-[0_0_20px_var(--tone-glow)]"
-        >
-          <span className="text-lg leading-none">{tier.emblem}</span>
-          <div className="text-right leading-tight">
-            <div className="text-[11px] font-black text-[var(--tone)]">{tier.name}</div>
-            <div className="text-[8px] font-mono text-muted-foreground tracking-widest uppercase">
-              {tier.english}
-            </div>
+      {/* Hero rank badge */}
+      <div className="relative flex flex-col items-center gap-2 pt-1">
+        <RankBadge tier={tierIdx} size={120} />
+        <div className="text-center leading-tight">
+          <div className="text-base font-black text-[var(--tone)]" style={{ fontFamily: "Amiri, serif" }}>
+            {tier.name}
           </div>
-        </div>
-        <div className="text-left">
-          <div className="text-[9px] font-bold text-muted-foreground tracking-widest uppercase">
-            المرحلة
+          <div className="text-[9px] font-mono text-muted-foreground tracking-[0.25em] uppercase mt-0.5">
+            {tier.english} · rank {tierIdx + 1}/10
           </div>
-          <div className="text-xs font-black text-foreground">
-            {stage.index + 1}/10 · {stage.name}
+          <div className="text-[10px] font-bold text-muted-foreground mt-1">
+            المرحلة: {stage.name} ({stage.index + 1}/10)
           </div>
         </div>
       </div>
