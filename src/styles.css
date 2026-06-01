@@ -63,40 +63,43 @@
 
 :root {
   --radius: 1rem;
-  /* Mujahadat an-Nafs — deep obsidian night with rose/violet accents */
-  --background: oklch(0.08 0 0);
-  --foreground: oklch(0.96 0 0);
-  --card: oklch(0.13 0 0 / 0.85);
-  --card-foreground: oklch(0.96 0 0);
-  --popover: oklch(0.11 0 0);
-  --popover-foreground: oklch(0.96 0 0);
-  --primary: oklch(0.65 0.22 15);            /* rose */
-  --primary-foreground: oklch(0.98 0 0);
-  --secondary: oklch(0.62 0.20 295);         /* violet */
-  --secondary-foreground: oklch(0.98 0 0);
-  --muted: oklch(0.18 0 0 / 0.6);
-  --muted-foreground: oklch(0.55 0 0);
-  --accent: oklch(0.65 0.22 15);
-  --accent-foreground: oklch(0.98 0 0);
-  --destructive: oklch(0.65 0.22 15);
-  --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(1 0 0 / 0.06);
-  --input: oklch(0.15 0 0 / 0.8);
-  --ring: oklch(0.65 0.22 15 / 0.4);
-  /* Brand accents */
-  --rose: oklch(0.65 0.22 15);
-  --rose-glow: oklch(0.65 0.22 15 / 0.35);
-  --violet: oklch(0.62 0.20 295);
-  --emerald: oklch(0.72 0.16 165);
-  --gold: oklch(0.82 0.17 88);
-  --amber: oklch(0.78 0.17 70);
-  /* Tone tokens — bound to current nafs stage */
-  --tone: var(--rose);
-  --tone-soft: oklch(0.65 0.22 15 / 0.14);
-  --tone-glow: oklch(0.65 0.22 15 / 0.35);
-  --gradient-tone: linear-gradient(135deg, var(--tone) 0%, var(--violet) 100%);
-  --shadow-soft: 0 20px 60px -20px oklch(0 0 0 / 0.7);
-  --shadow-tone: 0 0 40px var(--tone-glow);
+  /* Andalusian Manuscript — warm parchment, sepia ink, gold leaf */
+  --background: oklch(0.94 0.035 82);        /* aged parchment */
+  --foreground: oklch(0.26 0.045 50);        /* sepia ink */
+  --card: oklch(0.96 0.03 82 / 0.85);
+  --card-foreground: oklch(0.26 0.045 50);
+  --popover: oklch(0.97 0.025 82);
+  --popover-foreground: oklch(0.26 0.045 50);
+  --primary: oklch(0.45 0.12 35);            /* burnt sienna */
+  --primary-foreground: oklch(0.97 0.02 82);
+  --secondary: oklch(0.55 0.10 50);          /* warm clay */
+  --secondary-foreground: oklch(0.97 0.02 82);
+  --muted: oklch(0.88 0.04 80 / 0.7);
+  --muted-foreground: oklch(0.42 0.04 50);
+  --accent: oklch(0.65 0.13 70);             /* aged gold */
+  --accent-foreground: oklch(0.22 0.04 50);
+  --destructive: oklch(0.5 0.16 28);
+  --destructive-foreground: oklch(0.97 0.02 82);
+  --border: oklch(0.55 0.08 50 / 0.25);
+  --input: oklch(0.92 0.03 82);
+  --ring: oklch(0.55 0.13 40 / 0.4);
+  /* Brand accents (manuscript palette) */
+  --sienna: oklch(0.50 0.13 40);
+  --clay: oklch(0.58 0.10 45);
+  --gold: oklch(0.68 0.13 78);
+  --gold-deep: oklch(0.55 0.13 70);
+  --emerald: oklch(0.48 0.08 170);
+  --ink: oklch(0.25 0.04 50);
+  --parchment: oklch(0.94 0.035 82);
+  --parchment-deep: oklch(0.88 0.05 78);
+  --violet: oklch(0.50 0.10 320);            /* keep for legacy refs */
+  /* Tone tokens — bound to current rank */
+  --tone: var(--sienna);
+  --tone-soft: oklch(0.50 0.13 40 / 0.12);
+  --tone-glow: oklch(0.50 0.13 40 / 0.25);
+  --gradient-tone: linear-gradient(135deg, var(--tone) 0%, var(--gold-deep) 100%);
+  --shadow-soft: 0 10px 30px -15px oklch(0.30 0.06 50 / 0.35);
+  --shadow-tone: 0 6px 24px -8px var(--tone-glow);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -153,27 +156,48 @@
   }
 
   body {
-    background: var(--background);
+    background:
+      radial-gradient(ellipse at top, oklch(0.96 0.03 82) 0%, var(--background) 60%),
+      var(--background);
+    background-attachment: fixed;
     color: var(--color-foreground);
-    font-family: "Cairo", "Tajawal", system-ui, -apple-system, sans-serif;
+    font-family: "Lateef", "Amiri", "Cairo", "Tajawal", system-ui, -apple-system, sans-serif;
     -webkit-tap-highlight-color: transparent;
   }
 
   html { scroll-behavior: smooth; }
 
-  /* Tone classes — set tone vars based on stage */
-  .tone-weak     { --tone: oklch(0.65 0.22 15);  --tone-soft: oklch(0.65 0.22 15 / 0.14);  --tone-glow: oklch(0.65 0.22 15 / 0.35); }
-  .tone-rising   { --tone: oklch(0.62 0.20 295); --tone-soft: oklch(0.62 0.20 295 / 0.14); --tone-glow: oklch(0.62 0.20 295 / 0.30); }
-  .tone-awakening{ --tone: oklch(0.78 0.17 70);  --tone-soft: oklch(0.78 0.17 70 / 0.14);  --tone-glow: oklch(0.78 0.17 70 / 0.30); }
-  .tone-steady   { --tone: oklch(0.72 0.16 165); --tone-soft: oklch(0.72 0.16 165 / 0.14); --tone-glow: oklch(0.72 0.16 165 / 0.30); }
-  .tone-luminous { --tone: oklch(0.82 0.17 88);  --tone-soft: oklch(0.82 0.17 88 / 0.16);  --tone-glow: oklch(0.82 0.17 88 / 0.40); }
+  /* Tone classes — warm manuscript palette per stage */
+  .tone-weak      { --tone: oklch(0.50 0.13 40); --tone-soft: oklch(0.50 0.13 40 / 0.12); --tone-glow: oklch(0.50 0.13 40 / 0.25); }
+  .tone-rising    { --tone: oklch(0.55 0.13 50); --tone-soft: oklch(0.55 0.13 50 / 0.12); --tone-glow: oklch(0.55 0.13 50 / 0.25); }
+  .tone-awakening { --tone: oklch(0.60 0.13 65); --tone-soft: oklch(0.60 0.13 65 / 0.12); --tone-glow: oklch(0.60 0.13 65 / 0.25); }
+  .tone-steady    { --tone: oklch(0.48 0.10 170); --tone-soft: oklch(0.48 0.10 170 / 0.12); --tone-glow: oklch(0.48 0.10 170 / 0.25); }
+  .tone-luminous  { --tone: oklch(0.62 0.13 78); --tone-soft: oklch(0.62 0.13 78 / 0.14); --tone-glow: oklch(0.62 0.13 78 / 0.30); }
 
-  .glass {
-    background: oklch(0.11 0 0 / 0.75);
-    backdrop-filter: blur(24px) saturate(160%);
-    -webkit-backdrop-filter: blur(24px) saturate(160%);
+  /* Manuscript paper card */
+  .paper {
+    background:
+      linear-gradient(180deg, oklch(0.97 0.025 82 / 0.96), oklch(0.93 0.04 80 / 0.94));
     border: 1px solid var(--color-border);
-    box-shadow: var(--shadow-soft);
+    box-shadow:
+      var(--shadow-soft),
+      inset 0 1px 0 oklch(1 0 0 / 0.6),
+      inset 0 0 0 1px oklch(0.55 0.08 50 / 0.06);
+    position: relative;
+  }
+  .paper::before {
+    content: "";
+    position: absolute; inset: 6px;
+    border: 1px solid oklch(0.55 0.10 50 / 0.18);
+    border-radius: inherit;
+    pointer-events: none;
+  }
+  /* Legacy alias so existing .glass class still works */
+  .glass {
+    background:
+      linear-gradient(180deg, oklch(0.97 0.025 82 / 0.96), oklch(0.93 0.04 80 / 0.94));
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-soft), inset 0 1px 0 oklch(1 0 0 / 0.5);
   }
 
   .tone-ring {
@@ -181,11 +205,12 @@
     border-color: oklch(from var(--tone) l c h / 0.4);
   }
 
-  /* Ambient orbs */
+  /* Ambient warm orbs */
   .orb {
     position: absolute;
     border-radius: 50%;
-    filter: blur(80px);
+    filter: blur(90px);
+    opacity: 0.55;
     pointer-events: none;
   }
   .orb-1 {
@@ -197,8 +222,17 @@
   .orb-2 {
     width: 55vw; max-width: 440px; height: 55vw; max-height: 440px;
     bottom: 5%; left: -10%;
-    background: radial-gradient(circle, oklch(0.62 0.20 295 / 0.10), transparent 70%);
+    background: radial-gradient(circle, oklch(0.65 0.13 78 / 0.16), transparent 70%);
     animation: orb-drift 18s ease-in-out infinite alternate-reverse;
+  }
+
+  /* Manuscript illuminated corner */
+  .illum-corner {
+    background-image:
+      radial-gradient(circle at 0 0, var(--gold-deep) 0 2px, transparent 3px),
+      radial-gradient(circle at 100% 0, var(--gold-deep) 0 2px, transparent 3px),
+      radial-gradient(circle at 0 100%, var(--gold-deep) 0 2px, transparent 3px),
+      radial-gradient(circle at 100% 100%, var(--gold-deep) 0 2px, transparent 3px);
   }
   @keyframes orb-drift {
     0% { transform: translate(0,0) scale(1); }
