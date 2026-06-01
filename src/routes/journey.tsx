@@ -1,22 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { AlertTriangle, RotateCcw } from "lucide-react";
 
 import { AppShell } from "@/components/AppShell";
 import { RankBadge } from "@/components/RankBadge";
-import { Button } from "@/components/ui/button";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { useNafsState } from "@/hooks/useNafsState";
 import { STAGES } from "@/lib/nafs-stages";
+import { RANK_META } from "@/lib/rank-portraits";
 
 export const Route = createFileRoute("/journey")({
   head: () => ({
@@ -34,44 +22,20 @@ function JourneyPage() {
   const s = useNafsState();
   if (!s.ready || !s.state) return <div className="min-h-screen" />;
 
-  const resetBtn = (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button variant="ghost" size="sm" className="text-muted-foreground gap-1.5">
-          <RotateCcw className="w-3.5 h-3.5" />
-          <span className="text-xs">إعادة</span>
-        </Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent className="bg-popover border-border" dir="rtl">
-        <AlertDialogHeader>
-          <AlertDialogTitle>إعادة كل شيء؟</AlertDialogTitle>
-          <AlertDialogDescription>
-            سيُمحى سجلك بالكامل: الأيام، الانتكاسات، والعبادات.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>إلغاء</AlertDialogCancel>
-          <AlertDialogAction onClick={s.onResetAll}>نعم، أعد</AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
-  );
-
   return (
     <AppShell
       title="خريطة الرّحلة"
       subtitle="The Path of Ranks"
       toneId={s.stage.toneId}
-      rightSlot={resetBtn}
     >
       <div className="space-y-4">
-        <section className="glass rounded-2xl p-4 grid grid-cols-3 gap-3 text-center">
+        <section className="paper rounded-2xl p-4 grid grid-cols-3 gap-3 text-center">
           <Mini value={s.state.totalRelapses} label="انتكاسات" tone="destructive" />
           <Mini value={s.state.bestStreak} label="أطول صمود" tone="gold" />
           <Mini value={`${s.stage.index + 1}/10`} label="رتبتك" tone="tone" />
         </section>
 
-        <section className="glass rounded-3xl overflow-hidden">
+        <section className="paper rounded-3xl overflow-hidden">
           <div className="px-5 py-3 border-b border-border/40 flex items-center justify-between">
             <h2 className="text-sm font-black">رُتب مُجاهدي النفس</h2>
             <span className="text-[9px] font-mono text-muted-foreground">عشر مراتب</span>
@@ -80,12 +44,13 @@ function JourneyPage() {
             {STAGES.map((st) => {
               const reached = s.score >= st.minScore;
               const current = st.index === s.stage.index;
+              const meta = RANK_META[st.index];
               return (
                 <li
                   key={st.index}
-                  className={`flex items-center gap-3 px-5 py-3 ${current ? "bg-[var(--tone-soft)]" : ""}`}
+                  className={`flex items-start gap-3 px-5 py-4 ${current ? "bg-[var(--tone-soft)]" : ""}`}
                 >
-                  <RankBadge tier={st.index} size={52} locked={!reached} />
+                  <RankBadge tier={st.index} size={64} locked={!reached} />
                   <div className="flex-1 min-w-0 text-right">
                     <div
                       className={`text-sm font-bold truncate ${
@@ -95,12 +60,16 @@ function JourneyPage() {
                             ? "text-foreground"
                             : "text-muted-foreground"
                       }`}
+                      style={{ fontFamily: "Amiri, serif" }}
                     >
                       {st.name}
                     </div>
-                    <div className="text-[10px] text-muted-foreground truncate">{st.english}</div>
+                    <div className="text-[10px] text-muted-foreground">{st.english}</div>
+                    <div className="text-[11px] text-[var(--ink)]/80 leading-snug mt-1">
+                      {meta.desc}
+                    </div>
                   </div>
-                  <span className="text-[10px] font-mono text-muted-foreground shrink-0">
+                  <span className="text-[10px] font-mono text-muted-foreground shrink-0 mt-1">
                     {st.minScore} نقطة
                   </span>
                 </li>
@@ -108,40 +77,6 @@ function JourneyPage() {
             })}
           </ol>
         </section>
-
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button
-              variant="outline"
-              className="w-full h-12 rounded-2xl border-destructive/40 bg-destructive/10 text-destructive hover:bg-destructive/20 font-bold"
-            >
-              <AlertTriangle className="w-4 h-4 ml-1.5" />
-              سقطتُ — تسجيل انتكاسة
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent className="bg-popover border-border" dir="rtl">
-            <AlertDialogHeader>
-              <AlertDialogTitle>هل سقطت فعلاً؟</AlertDialogTitle>
-              <AlertDialogDescription>
-                سيُعاد العدّاد إلى الصفر، ولا تيأس من رحمة الله.
-                {` `}«إِنَّ الْحَسَنَاتِ يُذْهِبْنَ السَّيِّئَاتِ» — هود ١١٤.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>تراجعت، سأصمد</AlertDialogCancel>
-              <AlertDialogAction
-                onClick={s.onRelapse}
-                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-              >
-                نعم، سقطت
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-
-        <footer className="text-center text-[10px] text-muted-foreground py-2">
-          البيانات محفوظة محلياً على جهازك فقط · صُنع بنيّة الإصلاح
-        </footer>
       </div>
     </AppShell>
   );
@@ -160,7 +95,7 @@ function Mini({
     tone === "tone"
       ? "text-[var(--tone)]"
       : tone === "gold"
-        ? "text-[var(--gold)]"
+        ? "text-[var(--gold-deep)]"
         : "text-destructive";
   return (
     <div>
