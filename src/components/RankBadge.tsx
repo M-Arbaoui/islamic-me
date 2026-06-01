@@ -55,10 +55,6 @@ export function RankBadge({ tier, size = 96, locked = false, className = "" }: P
         {/* 8-point inner star */}
         <polygon
           points={starPoints(8, 50, 40, 60, 60)}
-          fill="url(#" + ""}
-        />
-        <polygon
-          points={starPoints(8, 50, 40, 60, 60)}
           fill={`url(#${id}-bg)`}
           stroke="oklch(0.55 0.13 70)"
           strokeWidth={1.2}
