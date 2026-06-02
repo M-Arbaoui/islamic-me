@@ -1,8 +1,9 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Home, ListChecks, Sparkles, Map as MapIcon } from "lucide-react";
+import { Home, ListChecks, Sparkles, Map as MapIcon, Moon, Sun } from "lucide-react";
 import type { ReactNode } from "react";
 
 import { useNafsState } from "@/hooks/useNafsState";
+import { useTheme } from "@/hooks/useTheme";
 
 const TABS = [
   { to: "/", label: "البيت", icon: Home, exact: true },
@@ -21,6 +22,7 @@ type Props = {
 
 export function AppShell({ title, subtitle, toneId, rightSlot, children }: Props) {
   const path = useRouterState({ select: (s) => s.location.pathname });
+  const { theme, toggle } = useTheme();
 
   return (
     <div className={`relative min-h-screen tone-${toneId} overflow-hidden`}>
@@ -33,9 +35,13 @@ export function AppShell({ title, subtitle, toneId, rightSlot, children }: Props
         {/* Header */}
         <header className="sticky top-0 z-30 glass border-b border-border/40 px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[var(--tone)] to-[var(--violet)] flex items-center justify-center shadow-lg shadow-[var(--tone-glow)] text-white font-black">
-              ⚔
-            </div>
+            <img
+              src="/app-icon.png"
+              alt="NAFS"
+              width={40}
+              height={40}
+              className="w-10 h-10 rounded-xl shadow-lg shadow-[var(--tone-glow)] ring-1 ring-[var(--gold-deep)]/40"
+            />
             <div className="text-right">
               <h1 className="text-sm font-black leading-none text-foreground">{title}</h1>
               {subtitle && (
@@ -45,7 +51,17 @@ export function AppShell({ title, subtitle, toneId, rightSlot, children }: Props
               )}
             </div>
           </div>
-          {rightSlot}
+          <div className="flex items-center gap-2">
+            {rightSlot}
+            <button
+              type="button"
+              onClick={toggle}
+              aria-label={theme === "dark" ? "وضع نهاري" : "وضع ليلي"}
+              className="w-9 h-9 rounded-xl border border-border/60 bg-background/60 backdrop-blur flex items-center justify-center text-[var(--tone)] active:scale-95 transition"
+            >
+              {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            </button>
+          </div>
         </header>
 
         {/* Page content */}

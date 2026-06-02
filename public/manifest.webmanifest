@@ -1,7 +1,7 @@
 {
-  "name": "مُجاهد النفس — Mujāhid an-Nafs",
-  "short_name": "مُجاهد النفس",
-  "description": "تطبيق إسلامي لمحاسبة النفس وتتبع العبادات اليومية برتب المجاهدين العشر.",
+  "name": "NAFS — نَفْس",
+  "short_name": "NAFS",
+  "description": "NAFS — رحلة مجاهدة النفس برتب المجاهدين العشر، أذكار، وقرآن.",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
