@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AlertTriangle, RotateCcw } from "lucide-react";
-import appIcon from "/app-icon.png?url";
 
 import { AppShell } from "@/components/AppShell";
 import { StagePortrait } from "@/components/StagePortrait";
