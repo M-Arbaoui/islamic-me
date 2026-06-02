@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AlertTriangle, RotateCcw } from "lucide-react";
+import appIcon from "/app-icon.png?url";
 
 import { AppShell } from "@/components/AppShell";
 import { StagePortrait } from "@/components/StagePortrait";
@@ -22,12 +23,12 @@ import { useNafsState } from "@/hooks/useNafsState";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "مُجاهد النفس — رتبتك اليوم" },
+      { title: "NAFS — رتبتك اليوم" },
       {
         name: "description",
-        content: "ارتقِ من الأسير إلى الفاتح. تتبع رحلتك في مجاهدة النفس بأسلوب فروسي إسلامي.",
+        content: "NAFS — ارتقِ من الأسير إلى الفاتح. تتبع رحلتك في مجاهدة النفس.",
       },
-      { property: "og:title", content: "مُجاهد النفس" },
+      { property: "og:title", content: "NAFS — نَفْس" },
       { property: "og:description", content: "رتبتك في طريق مجاهدة النفس." },
     ],
   }),
@@ -39,7 +40,7 @@ function Index() {
   if (!s.ready || !s.state) return <div className="min-h-screen" />;
 
   return (
-    <AppShell title="مُجاهد النفس" subtitle="Mujāhid an-Nafs" toneId={s.stage.toneId}>
+    <AppShell title="NAFS" subtitle="نَفْس · Self-Jihad" toneId={s.stage.toneId}>
       <div className="space-y-4">
         <StagePortrait
           stage={s.stage}

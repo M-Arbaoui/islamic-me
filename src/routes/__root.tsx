@@ -72,16 +72,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
-      { title: "نفس - Nafs" },
-      { name: "description", content: "تطبيق إسلامي لمحاسبة النفس وتتبع العبادات اليومية بمراحل النفس العشر، مع مرشد ذكي للتحفيز." },
+      { title: "NAFS — نَفْس" },
+      { name: "description", content: "NAFS — تطبيق إسلامي لمجاهدة النفس بعشر رتب، أذكار يومية، آيات من القرآن، ومرشد ذكي." },
       { name: "theme-color", content: "#7c2d12" },
-      { property: "og:title", content: "نفس - Nafs" },
-      { property: "og:description", content: "تطبيق إسلامي لمحاسبة النفس وتتبع العبادات اليومية بمراحل النفس العشر، مع مرشد ذكي للتحفيز." },
+      { property: "og:title", content: "NAFS — نَفْس" },
+      { property: "og:description", content: "ارتقِ من الأسير إلى الفاتح. رتب، أذكار، قرآن، ومرشد ذكي." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
-      { name: "twitter:title", content: "نفس - Nafs" },
-      { name: "twitter:description", content: "تطبيق إسلامي لمحاسبة النفس وتتبع العبادات اليومية بمراحل النفس العشر، مع مرشد ذكي للتحفيز." },
+      { name: "twitter:title", content: "NAFS — نَفْس" },
+      { name: "twitter:description", content: "رحلتك في مجاهدة النفس." },
       { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/b34411bf-e3e1-4e97-b5a9-7a627a17337a" },
       { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/b34411bf-e3e1-4e97-b5a9-7a627a17337a" },
     ],
@@ -95,6 +95,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Amiri:wght@400;700&family=Amiri+Quran&family=Lateef:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap" },
       { rel: "manifest", href: "/manifest.webmanifest" },
       { rel: "apple-touch-icon", href: "/app-icon.png" },
+      { rel: "icon", type: "image/png", href: "/favicon.png" },
+      { rel: "shortcut icon", type: "image/png", href: "/favicon.png" },
     ],
   }),
   shellComponent: RootShell,
@@ -107,6 +109,12 @@ function RootShell({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ar" dir="rtl">
       <head>
+        <script
+          // Prevent theme flash on first paint
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('nafs-theme');if(!t){t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}if(t==='dark')document.documentElement.classList.add('dark');}catch(e){}})();`,
+          }}
+        />
         <HeadContent />
       </head>
       <body>
