@@ -4,6 +4,7 @@ import ReactMarkdown from "react-markdown";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import type { DailyHabits, Stage } from "@/lib/nafs-stages";
+import { useProfile } from "@/hooks/useProfile";
 
 type Mode = "roast" | "motivate" | "analyze";
 
@@ -21,6 +22,7 @@ const MODE_LABEL: Record<Mode, string> = {
 };
 
 export function AiAdvisor({ stage, streakDays, todayScore, habits }: Props) {
+  const { profile } = useProfile();
   const [confession, setConfession] = useState("");
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState<{ mode: Mode; text: string } | null>(null);
@@ -42,6 +44,13 @@ export function AiAdvisor({ stage, streakDays, todayScore, habits }: Props) {
           todayScore,
           habits,
           userMessage: mode === "analyze" ? confession.trim() : undefined,
+          profile: profile
+            ? {
+                name: profile.name,
+                struggle: profile.struggle,
+                goal: profile.goal,
+              }
+            : undefined,
         }),
       });
       if (!res.ok) {
