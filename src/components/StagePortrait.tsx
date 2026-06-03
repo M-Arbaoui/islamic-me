@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import type { Stage } from "@/lib/nafs-stages";
 import { RankBadge } from "@/components/RankBadge";
+import { FlipDigit } from "@/components/FlipDigit";
 
 type Props = {
   stage: Stage;
@@ -77,9 +78,6 @@ export function StagePortrait({ stage, streakDays, startDate }: Props) {
           <div className="text-[9px] font-mono text-muted-foreground tracking-[0.25em] uppercase mt-0.5">
             {tier.english} · rank {tierIdx + 1}/10
           </div>
-          <div className="text-[10px] font-bold text-muted-foreground mt-1">
-            المرحلة: {stage.name} ({stage.index + 1}/10)
-          </div>
         </div>
       </div>
 
@@ -98,9 +96,9 @@ export function StagePortrait({ stage, streakDays, startDate }: Props) {
             صامدٌ منذ
           </div>
           <div
-            className="mt-2 text-7xl font-black font-mono leading-none bg-gradient-to-br from-[var(--tone)] to-[var(--violet)] bg-clip-text text-transparent drop-shadow-[0_0_20px_var(--tone-glow)] tabular-nums"
+            className="mt-2 text-7xl font-black font-mono leading-none bg-gradient-to-br from-[var(--tone)] to-[var(--violet)] bg-clip-text text-transparent drop-shadow-[0_0_20px_var(--tone-glow)]"
           >
-            {String(days).padStart(2, "0")}
+            <FlipDigit value={days} digits={days >= 100 ? 3 : 2} />
           </div>
           <div className="mt-1 text-[11px] font-bold text-[var(--tone)] tracking-widest">
             {days === 1 ? "يوم" : "يوماً"}
@@ -109,7 +107,7 @@ export function StagePortrait({ stage, streakDays, startDate }: Props) {
           <div className="mt-4 grid grid-cols-3 gap-2">
             <TimeCell value={hours} label="ساعة" />
             <TimeCell value={minutes} label="دقيقة" />
-            <TimeCell value={seconds} label="ثانية" pulse />
+            <TimeCell value={seconds} label="ثانية" />
           </div>
 
           <div
@@ -131,21 +129,11 @@ export function StagePortrait({ stage, streakDays, startDate }: Props) {
   );
 }
 
-function TimeCell({
-  value,
-  label,
-  pulse,
-}: {
-  value: number;
-  label: string;
-  pulse?: boolean;
-}) {
+function TimeCell({ value, label }: { value: number; label: string }) {
   return (
     <div className="rounded-xl bg-background/60 border border-border/50 backdrop-blur py-2">
-      <div
-        className={`text-2xl font-mono font-black text-foreground tabular-nums ${pulse ? "animate-pulse" : ""}`}
-      >
-        {String(value).padStart(2, "0")}
+      <div className="text-2xl font-mono font-black text-foreground">
+        <FlipDigit value={value} digits={2} />
       </div>
       <div className="text-[9px] font-bold text-muted-foreground tracking-widest mt-0.5">
         {label}
