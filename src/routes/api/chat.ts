@@ -18,6 +18,13 @@ const BodySchema = z.object({
     goodDeed: z.boolean(),
   }),
   userMessage: z.string().max(800).optional(),
+  profile: z
+    .object({
+      name: z.string().max(40).optional(),
+      struggle: z.string().max(120).optional(),
+      goal: z.string().max(300).optional(),
+    })
+    .optional(),
 });
 
 function buildSystem(mode: "roast" | "motivate" | "analyze") {
@@ -57,6 +64,9 @@ function buildUserContext(input: z.infer<typeof BodySchema>) {
     `عبادات اليوم: صلوات ${input.habits.prayers}/٥، قرآن ${input.habits.quran ? "✓" : "✗"}، ذِكر ${input.habits.dhikr ? "✓" : "✗"}، ضبط النفس ${input.habits.restraint ? "✓" : "✗"}، عمل صالح ${input.habits.goodDeed ? "✓" : "✗"}`,
     `مجموع نقاط اليوم: ${input.todayScore}/٥`,
   ];
+  if (input.profile?.name) lines.unshift(`اسم المستخدم: ${input.profile.name} — نادِه باسمه.`);
+  if (input.profile?.struggle) lines.push(`أكبر تحدٍّ يعاني منه: ${input.profile.struggle}`);
+  if (input.profile?.goal) lines.push(`هدفه الذي وضعه: ${input.profile.goal}`);
   if (input.userMessage) lines.push(`\nاعتراف المستخدم: "${input.userMessage}"`);
   return lines.join("\n");
 }
