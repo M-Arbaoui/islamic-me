@@ -1,10 +1,13 @@
+import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { AlertTriangle, RotateCcw } from "lucide-react";
+import { AlertTriangle, Info, RotateCcw } from "lucide-react";
 
 import { AppShell } from "@/components/AppShell";
 import { StagePortrait } from "@/components/StagePortrait";
 import { AdhkarCard, QuranCard } from "@/components/DailyWisdom";
 import { InstallPwaButton } from "@/components/InstallPwaButton";
+import { Onboarding } from "@/components/Onboarding";
+import { TodayMission } from "@/components/TodayMission";
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
@@ -18,6 +21,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useNafsState } from "@/hooks/useNafsState";
+import { useProfile } from "@/hooks/useProfile";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -36,11 +40,20 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const s = useNafsState();
+  const { profile } = useProfile();
+  const [showInfo, setShowInfo] = useState(false);
   if (!s.ready || !s.state) return <div className="min-h-screen" />;
 
   return (
     <AppShell title="NAFS" subtitle="نَفْس · Self-Jihad" toneId={s.stage.toneId}>
+      <Onboarding />
       <div className="space-y-4">
+        {profile?.name && (
+          <div className="text-right text-[12px] text-muted-foreground">
+            مرحباً يا{" "}
+            <span className="font-black text-[var(--tone)]">{profile.name}</span>
+          </div>
+        )}
         <StagePortrait
           stage={s.stage}
           streakDays={s.streakDays}
@@ -81,10 +94,8 @@ function Index() {
         <AdhkarCard />
         <QuranCard />
 
-        <section className="grid grid-cols-2 gap-2">
-          <QuickCard to="/habits" emoji="📿" title="عبادات اليوم" sub="سجّل صلواتك وذِكرك" />
-          <QuickCard to="/guide" emoji="🗡️" title="المرشد الذكي" sub="جَلْد، تحفيز، تحليل" />
-        </section>
+        {/* Today's mission */}
+        <TodayMission habits={s.today} todayPts={s.todayPts} />
 
         <Link
           to="/journey"
@@ -174,9 +185,22 @@ function Index() {
           </div>
         </section>
 
-        <footer className="text-center text-[10px] text-muted-foreground py-2 leading-relaxed">
-          البيانات محفوظة محلياً على جهازك فقط · صُنع بنيّة الإصلاح
-        </footer>
+        <div className="flex items-center justify-center gap-2 py-2">
+          <button
+            type="button"
+            onClick={() => setShowInfo((v) => !v)}
+            className="inline-flex items-center gap-1 text-[10px] text-muted-foreground hover:text-[var(--tone)] transition"
+            aria-label="معلومات"
+          >
+            <Info className="w-3 h-3" />
+            {showInfo ? "إخفاء" : "حول التطبيق"}
+          </button>
+        </div>
+        {showInfo && (
+          <div className="text-center text-[10px] text-muted-foreground leading-relaxed -mt-1 pb-2">
+            البيانات محفوظة محلياً على جهازك فقط · صُنع بنيّة الإصلاح
+          </div>
+        )}
       </div>
     </AppShell>
   );
@@ -207,25 +231,3 @@ function Stat({
   );
 }
 
-function QuickCard({
-  to,
-  emoji,
-  title,
-  sub,
-}: {
-  to: "/habits" | "/guide" | "/journey";
-  emoji: string;
-  title: string;
-  sub: string;
-}) {
-  return (
-    <Link
-      to={to}
-      className="paper rounded-2xl p-4 text-right active:scale-[0.98] transition-transform block"
-    >
-      <div className="text-2xl mb-1">{emoji}</div>
-      <div className="text-sm font-black">{title}</div>
-      <div className="text-[10px] text-muted-foreground">{sub}</div>
-    </Link>
-  );
-}
