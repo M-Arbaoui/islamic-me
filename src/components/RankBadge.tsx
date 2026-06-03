@@ -26,9 +26,12 @@ export function RankBadge({ tier, size = 96, locked = false, className = "" }: P
   const t = Math.max(0, Math.min(9, tier));
   const portrait = RANK_PORTRAITS[t];
   const id = `rb-${t}`;
-  const style: CSSProperties = locked
-    ? { filter: "grayscale(0.9) sepia(0.4) brightness(0.85)", opacity: 0.55 }
-    : { filter: "drop-shadow(0 4px 10px oklch(0.30 0.06 50 / 0.35))" };
+  const style: CSSProperties = {
+    filter: locked
+      ? "drop-shadow(0 2px 6px oklch(0.20 0.04 50 / 0.4))"
+      : "drop-shadow(0 4px 10px oklch(0.30 0.06 50 / 0.35))",
+    opacity: locked ? 0.85 : 1,
+  };
 
   return (
     <div
@@ -68,15 +71,35 @@ export function RankBadge({ tier, size = 96, locked = false, className = "" }: P
           strokeWidth={1.4}
         />
         {/* portrait clipped to circle */}
-        <image
-          href={portrait}
-          x={22}
-          y={22}
-          width={76}
-          height={76}
-          preserveAspectRatio="xMidYMid slice"
-          clipPath={`url(#${id}-clip)`}
-        />
+        {locked ? (
+          <g clipPath={`url(#${id}-clip)`}>
+            <rect x={22} y={22} width={76} height={76} fill="var(--parchment-deep)" />
+            <image
+              href={portrait}
+              x={22}
+              y={22}
+              width={76}
+              height={76}
+              preserveAspectRatio="xMidYMid slice"
+              style={{ filter: "brightness(0) opacity(0.55)" }}
+            />
+            {/* lock glyph */}
+            <g transform="translate(60 64)">
+              <rect x={-7} y={-2} width={14} height={11} rx={2} fill="var(--gold-deep)" opacity={0.85} />
+              <path d="M -4 -2 V -6 a 4 4 0 0 1 8 0 V -2" fill="none" stroke="var(--gold-deep)" strokeWidth={1.6} opacity={0.85} />
+            </g>
+          </g>
+        ) : (
+          <image
+            href={portrait}
+            x={22}
+            y={22}
+            width={76}
+            height={76}
+            preserveAspectRatio="xMidYMid slice"
+            clipPath={`url(#${id}-clip)`}
+          />
+        )}
         {/* gold ring */}
         <circle
           cx={60}
