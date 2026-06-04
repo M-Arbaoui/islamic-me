@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import { MapPin, RefreshCw } from "lucide-react";
+import { Bell, BellOff, MapPin, RefreshCw } from "lucide-react";
+
+import { useAdhanNotifications } from "@/hooks/useAdhanNotifications";
 
 type Times = {
   Fajr: string;
@@ -81,6 +83,7 @@ export function PrayerTimes() {
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const [tick, setTick] = useState(0);
+  const adhan = useAdhanNotifications(cache?.times ?? null);
 
   useEffect(() => {
     const c = loadCache();
@@ -148,13 +151,23 @@ export function PrayerTimes() {
             {LABELS[next.name]} بعد {next.in}
           </div>
         )}
-        <button
-          onClick={requestLocation}
-          className="text-muted-foreground hover:text-[var(--tone)]"
-          aria-label="تحديث"
-        >
-          <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={adhan.toggle}
+            className={adhan.enabled ? "text-[var(--tone)]" : "text-muted-foreground hover:text-[var(--tone)]"}
+            aria-label={adhan.enabled ? "إيقاف الأذان" : "تفعيل الأذان"}
+            title={adhan.enabled ? "إشعار الأذان مفعّل" : "تفعيل إشعار الأذان"}
+          >
+            {adhan.enabled ? <Bell className="w-3.5 h-3.5" /> : <BellOff className="w-3.5 h-3.5" />}
+          </button>
+          <button
+            onClick={requestLocation}
+            className="text-muted-foreground hover:text-[var(--tone)]"
+            aria-label="تحديث"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
+          </button>
+        </div>
       </div>
       <div className="grid grid-cols-5 gap-1.5" dir="ltr">
         {(Object.keys(cache.times) as (keyof Times)[]).map((k) => {
