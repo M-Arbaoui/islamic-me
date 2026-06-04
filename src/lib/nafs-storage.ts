@@ -9,6 +9,12 @@ export type AppState = {
   totalRelapses: number;
   bestStreak: number;
   history: { date: string; score: number }[];
+  shield: {
+    available: boolean;
+    lastGrantedAt: string; // ISO
+    lastUsedAt?: string; // ISO
+    totalUsed: number;
+  };
 };
 
 function today(): string {
@@ -21,6 +27,21 @@ export function loadState(): AppState {
     const raw = window.localStorage.getItem(KEY);
     if (!raw) return freshState();
     const parsed = JSON.parse(raw) as AppState;
+    if (!parsed.shield) {
+      parsed.shield = {
+        available: true,
+        lastGrantedAt: new Date().toISOString(),
+        totalUsed: 0,
+      };
+    } else {
+      // Regrant every 30 days
+      const last = new Date(parsed.shield.lastGrantedAt).getTime();
+      const days = Math.floor((Date.now() - last) / 86_400_000);
+      if (!parsed.shield.available && days >= 30) {
+        parsed.shield.available = true;
+        parsed.shield.lastGrantedAt = new Date().toISOString();
+      }
+    }
     // Rollover: new day → push previous to history, reset habits
     if (parsed.lastDate !== today()) {
       parsed.lastDate = today();
@@ -45,6 +66,11 @@ export function freshState(): AppState {
     totalRelapses: 0,
     bestStreak: 0,
     history: [],
+    shield: {
+      available: true,
+      lastGrantedAt: new Date().toISOString(),
+      totalUsed: 0,
+    },
   };
 }
 
@@ -56,6 +82,18 @@ export function daysSince(iso: string): number {
 
 export function recordRelapse(state: AppState): AppState {
   const current = daysSince(state.startDate);
+  // If shield is available, absorb the relapse — keep streak, consume shield.
+  if (state.shield?.available) {
+    return {
+      ...state,
+      shield: {
+        ...state.shield,
+        available: false,
+        lastUsedAt: new Date().toISOString(),
+        totalUsed: state.shield.totalUsed + 1,
+      },
+    };
+  }
   return {
     ...state,
     bestStreak: Math.max(state.bestStreak, current),
