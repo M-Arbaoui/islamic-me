@@ -9,12 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TasbihRouteImport } from './routes/tasbih'
 import { Route as JourneyRouteImport } from './routes/journey'
 import { Route as HabitsRouteImport } from './routes/habits'
 import { Route as GuideRouteImport } from './routes/guide'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 
+const TasbihRoute = TasbihRouteImport.update({
+  id: '/tasbih',
+  path: '/tasbih',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const JourneyRoute = JourneyRouteImport.update({
   id: '/journey',
   path: '/journey',
@@ -46,6 +52,7 @@ export interface FileRoutesByFullPath {
   '/guide': typeof GuideRoute
   '/habits': typeof HabitsRoute
   '/journey': typeof JourneyRoute
+  '/tasbih': typeof TasbihRoute
   '/api/chat': typeof ApiChatRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +60,7 @@ export interface FileRoutesByTo {
   '/guide': typeof GuideRoute
   '/habits': typeof HabitsRoute
   '/journey': typeof JourneyRoute
+  '/tasbih': typeof TasbihRoute
   '/api/chat': typeof ApiChatRoute
 }
 export interface FileRoutesById {
@@ -61,14 +69,22 @@ export interface FileRoutesById {
   '/guide': typeof GuideRoute
   '/habits': typeof HabitsRoute
   '/journey': typeof JourneyRoute
+  '/tasbih': typeof TasbihRoute
   '/api/chat': typeof ApiChatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/guide' | '/habits' | '/journey' | '/api/chat'
+  fullPaths: '/' | '/guide' | '/habits' | '/journey' | '/tasbih' | '/api/chat'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/guide' | '/habits' | '/journey' | '/api/chat'
-  id: '__root__' | '/' | '/guide' | '/habits' | '/journey' | '/api/chat'
+  to: '/' | '/guide' | '/habits' | '/journey' | '/tasbih' | '/api/chat'
+  id:
+    | '__root__'
+    | '/'
+    | '/guide'
+    | '/habits'
+    | '/journey'
+    | '/tasbih'
+    | '/api/chat'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -76,11 +92,19 @@ export interface RootRouteChildren {
   GuideRoute: typeof GuideRoute
   HabitsRoute: typeof HabitsRoute
   JourneyRoute: typeof JourneyRoute
+  TasbihRoute: typeof TasbihRoute
   ApiChatRoute: typeof ApiChatRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/tasbih': {
+      id: '/tasbih'
+      path: '/tasbih'
+      fullPath: '/tasbih'
+      preLoaderRoute: typeof TasbihRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/journey': {
       id: '/journey'
       path: '/journey'
@@ -124,8 +148,19 @@ const rootRouteChildren: RootRouteChildren = {
   GuideRoute: GuideRoute,
   HabitsRoute: HabitsRoute,
   JourneyRoute: JourneyRoute,
+  TasbihRoute: TasbihRoute,
   ApiChatRoute: ApiChatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
