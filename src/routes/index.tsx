@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { AlertTriangle, Info, RotateCcw } from "lucide-react";
+import { AlertTriangle, BookOpen, Info, RotateCcw } from "lucide-react";
 
 import { AppShell } from "@/components/AppShell";
 import { StagePortrait } from "@/components/StagePortrait";
@@ -124,6 +124,24 @@ function Index() {
             >
               عرض ←
             </Button>
+          </div>
+        </Link>
+
+        <Link
+          to="/quran"
+          className="block paper rounded-2xl p-4 active:scale-[0.98] transition-transform"
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-[var(--tone-soft)] flex items-center justify-center text-[var(--tone)]">
+              <BookOpen className="w-5 h-5" />
+            </div>
+            <div className="flex-1 text-right">
+              <div className="text-sm font-black">قارئ القرآن</div>
+              <div className="text-[10px] text-muted-foreground">
+                ١١٤ سورة · مع حفظ آخر آية
+              </div>
+            </div>
+            <span className="text-[var(--tone)] text-xs font-bold">افتح ←</span>
           </div>
         </Link>
 
