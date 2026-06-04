@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TasbihRouteImport } from './routes/tasbih'
+import { Route as QuranRouteImport } from './routes/quran'
 import { Route as JourneyRouteImport } from './routes/journey'
 import { Route as HabitsRouteImport } from './routes/habits'
 import { Route as GuideRouteImport } from './routes/guide'
@@ -19,6 +20,11 @@ import { Route as ApiChatRouteImport } from './routes/api/chat'
 const TasbihRoute = TasbihRouteImport.update({
   id: '/tasbih',
   path: '/tasbih',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuranRoute = QuranRouteImport.update({
+  id: '/quran',
+  path: '/quran',
   getParentRoute: () => rootRouteImport,
 } as any)
 const JourneyRoute = JourneyRouteImport.update({
@@ -52,6 +58,7 @@ export interface FileRoutesByFullPath {
   '/guide': typeof GuideRoute
   '/habits': typeof HabitsRoute
   '/journey': typeof JourneyRoute
+  '/quran': typeof QuranRoute
   '/tasbih': typeof TasbihRoute
   '/api/chat': typeof ApiChatRoute
 }
@@ -60,6 +67,7 @@ export interface FileRoutesByTo {
   '/guide': typeof GuideRoute
   '/habits': typeof HabitsRoute
   '/journey': typeof JourneyRoute
+  '/quran': typeof QuranRoute
   '/tasbih': typeof TasbihRoute
   '/api/chat': typeof ApiChatRoute
 }
@@ -69,20 +77,36 @@ export interface FileRoutesById {
   '/guide': typeof GuideRoute
   '/habits': typeof HabitsRoute
   '/journey': typeof JourneyRoute
+  '/quran': typeof QuranRoute
   '/tasbih': typeof TasbihRoute
   '/api/chat': typeof ApiChatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/guide' | '/habits' | '/journey' | '/tasbih' | '/api/chat'
+  fullPaths:
+    | '/'
+    | '/guide'
+    | '/habits'
+    | '/journey'
+    | '/quran'
+    | '/tasbih'
+    | '/api/chat'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/guide' | '/habits' | '/journey' | '/tasbih' | '/api/chat'
+  to:
+    | '/'
+    | '/guide'
+    | '/habits'
+    | '/journey'
+    | '/quran'
+    | '/tasbih'
+    | '/api/chat'
   id:
     | '__root__'
     | '/'
     | '/guide'
     | '/habits'
     | '/journey'
+    | '/quran'
     | '/tasbih'
     | '/api/chat'
   fileRoutesById: FileRoutesById
@@ -92,6 +116,7 @@ export interface RootRouteChildren {
   GuideRoute: typeof GuideRoute
   HabitsRoute: typeof HabitsRoute
   JourneyRoute: typeof JourneyRoute
+  QuranRoute: typeof QuranRoute
   TasbihRoute: typeof TasbihRoute
   ApiChatRoute: typeof ApiChatRoute
 }
@@ -103,6 +128,13 @@ declare module '@tanstack/react-router' {
       path: '/tasbih'
       fullPath: '/tasbih'
       preLoaderRoute: typeof TasbihRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quran': {
+      id: '/quran'
+      path: '/quran'
+      fullPath: '/quran'
+      preLoaderRoute: typeof QuranRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/journey': {
@@ -148,6 +180,7 @@ const rootRouteChildren: RootRouteChildren = {
   GuideRoute: GuideRoute,
   HabitsRoute: HabitsRoute,
   JourneyRoute: JourneyRoute,
+  QuranRoute: QuranRoute,
   TasbihRoute: TasbihRoute,
   ApiChatRoute: ApiChatRoute,
 }
