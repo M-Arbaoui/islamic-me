@@ -8,6 +8,8 @@ import { AdhkarCard, QuranCard } from "@/components/DailyWisdom";
 import { InstallPwaButton } from "@/components/InstallPwaButton";
 import { Onboarding } from "@/components/Onboarding";
 import { TodayMission } from "@/components/TodayMission";
+import { PrayerTimes } from "@/components/PrayerTimes";
+import { ShieldBadge } from "@/components/ShieldBadge";
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
@@ -60,6 +62,8 @@ function Index() {
           startDate={s.state.startDate}
         />
 
+        <PrayerTimes />
+
         {/* Progress to next rank */}
         <section className="paper rounded-2xl p-4 space-y-2">
           <div className="flex justify-between items-center text-[11px] font-bold tracking-wider">
@@ -89,6 +93,12 @@ function Index() {
           />
           <Stat label="نقاط اليوم" value={`${s.todayPts}/5`} accent="emerald" />
         </section>
+
+        <ShieldBadge
+          available={s.state.shield.available}
+          totalUsed={s.state.shield.totalUsed}
+          lastGrantedAt={s.state.shield.lastGrantedAt}
+        />
 
         {/* Daily wisdom */}
         <AdhkarCard />

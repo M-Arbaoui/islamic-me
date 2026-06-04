@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Home, ListChecks, Sparkles, Map as MapIcon, Moon, Sun } from "lucide-react";
+import { Home, ListChecks, Sparkles, Map as MapIcon, Moon, Sun, CircleDot } from "lucide-react";
 import type { ReactNode } from "react";
 
 import { useNafsState } from "@/hooks/useNafsState";
@@ -8,6 +8,7 @@ import { useTheme } from "@/hooks/useTheme";
 const TABS = [
   { to: "/", label: "البيت", icon: Home, exact: true },
   { to: "/habits", label: "العبادات", icon: ListChecks, exact: false },
+  { to: "/tasbih", label: "التسبيح", icon: CircleDot, exact: false },
   { to: "/guide", label: "المرشد", icon: Sparkles, exact: false },
   { to: "/journey", label: "الرحلة", icon: MapIcon, exact: false },
 ] as const;
@@ -70,7 +71,7 @@ export function AppShell({ title, subtitle, toneId, rightSlot, children }: Props
         {/* Bottom nav */}
         <nav className="fixed bottom-0 left-0 right-0 z-40 pb-[env(safe-area-inset-bottom)] pointer-events-none">
           <div className="max-w-md mx-auto px-3 pb-3 pointer-events-auto">
-            <div className="glass rounded-2xl border border-border/60 grid grid-cols-4 p-1.5">
+            <div className="glass rounded-2xl border border-border/60 grid grid-cols-5 p-1.5">
               {TABS.map((t) => {
                 const active = t.exact ? path === t.to : path.startsWith(t.to);
                 const Icon = t.icon;
