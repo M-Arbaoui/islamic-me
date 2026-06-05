@@ -36,17 +36,22 @@ export function AppShell({ title, subtitle, toneId, rightSlot, children }: Props
         {/* Header */}
         <header className="sticky top-0 z-30 glass border-b border-border/40 px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <img
-              src="/app-icon.png"
-              alt="NAFS"
-              width={40}
-              height={40}
-              className="w-10 h-10 rounded-xl shadow-lg shadow-[var(--tone-glow)] ring-1 ring-[var(--gold-deep)]/40"
-            />
+            <div className="relative">
+              <img
+                src="/app-icon.png"
+                alt="NAFS"
+                width={40}
+                height={40}
+                className="w-10 h-10 rounded-xl shadow-lg shadow-[var(--tone-glow)] ring-1 ring-[var(--tone)]/40"
+              />
+              <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-[var(--tone)] ring-2 ring-background pulse-dot" />
+            </div>
             <div className="text-right">
-              <h1 className="text-sm font-black leading-none text-foreground">{title}</h1>
+              <h1 className="text-sm font-black leading-none text-foreground mono tracking-widest">
+                {title}
+              </h1>
               {subtitle && (
-                <p className="text-[10px] text-muted-foreground tracking-widest uppercase mt-1">
+                <p className="text-[9px] text-[var(--tone)] mono tracking-[0.3em] uppercase mt-1 opacity-80">
                   {subtitle}
                 </p>
               )}
