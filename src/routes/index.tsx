@@ -300,24 +300,76 @@ function Index() {
   );
 }
 
-function Stat({
+function BentoStat({
   label,
   value,
-  accent,
+  icon,
+  tone = "tone",
+  big = false,
+  sub,
+  className = "",
 }: {
   label: string;
   value: string | number;
-  accent: "tone" | "gold" | "emerald";
+  icon?: React.ReactNode;
+  tone?: "tone" | "gold" | "emerald";
+  big?: boolean;
+  sub?: string;
+  className?: string;
 }) {
   const color =
-    accent === "tone"
-      ? "text-[var(--tone)]"
-      : accent === "gold"
-        ? "text-[var(--gold-deep)]"
-        : "text-[var(--emerald)]";
+    tone === "gold"
+      ? "text-[var(--gold)]"
+      : tone === "emerald"
+        ? "text-[var(--emerald)]"
+        : "text-[var(--tone)]";
+  return (
+    <div className={`hud hud-corners p-3 flex flex-col justify-between relative overflow-hidden ${className}`}>
+      <div className="flex items-center justify-between text-muted-foreground">
+        <span className="mono text-[9px] tracking-[0.2em]">{label}</span>
+        <span className={color}>{icon}</span>
+      </div>
+      <div className={`${color} mono font-black leading-none ${big ? "text-5xl" : "text-2xl"} text-left`}>
+        {value}
+      </div>
+      {sub && (
+        <div className="mono text-[9px] tracking-widest text-muted-foreground uppercase">{sub}</div>
+      )}
+    </div>
+  );
+}
+
+function BentoLink({
+  to,
+  label,
+  sub,
+  icon,
+}: {
+  to: "/habits" | "/quran" | "/tasbih" | "/journey" | "/guide";
+  label: string;
+  sub: string;
+  icon: React.ReactNode;
+}) {
+  return (
+    <Link
+      to={to}
+      className="hud hud-corners p-3 flex flex-col gap-2 active:scale-[0.97] transition-transform min-h-[92px]"
+    >
+      <div className="flex items-center justify-between">
+        <span className="text-[var(--tone)]">{icon}</span>
+        <span className="mono text-[9px] tracking-widest text-muted-foreground">{sub}</span>
+      </div>
+      <div className="text-right">
+        <div className="text-base font-black">{label}</div>
+      </div>
+    </Link>
+  );
+}
+
+function _LegacyStat({ label, value }: { label: string; value: string | number }) {
   return (
     <div className="paper rounded-2xl p-3 text-center">
-      <div className={`text-xl font-mono font-black ${color}`}>{value}</div>
+      <div className="text-xl font-mono font-black text-[var(--tone)]">{value}</div>
       <div className="text-[9px] font-bold text-muted-foreground tracking-widest mt-1">
         {label}
       </div>
