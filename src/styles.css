@@ -63,42 +63,45 @@
 
 :root {
   --radius: 1rem;
-  /* Andalusian Manuscript — warm parchment, sepia ink, gold leaf */
-  --background: oklch(0.94 0.035 82);        /* aged parchment */
-  --foreground: oklch(0.26 0.045 50);        /* sepia ink */
-  --card: oklch(0.96 0.03 82 / 0.85);
-  --card-foreground: oklch(0.26 0.045 50);
-  --popover: oklch(0.97 0.025 82);
-  --popover-foreground: oklch(0.26 0.045 50);
-  --primary: oklch(0.45 0.12 35);            /* burnt sienna */
-  --primary-foreground: oklch(0.97 0.02 82);
-  --secondary: oklch(0.55 0.10 50);          /* warm clay */
-  --secondary-foreground: oklch(0.97 0.02 82);
-  --muted: oklch(0.88 0.04 80 / 0.7);
-  --muted-foreground: oklch(0.42 0.04 50);
-  --accent: oklch(0.65 0.13 70);             /* aged gold */
-  --accent-foreground: oklch(0.22 0.04 50);
-  --destructive: oklch(0.5 0.16 28);
-  --destructive-foreground: oklch(0.97 0.02 82);
-  --border: oklch(0.55 0.08 50 / 0.25);
-  --input: oklch(0.92 0.03 82);
-  --ring: oklch(0.55 0.13 40 / 0.4);
-  /* Brand accents (manuscript palette) */
-  --sienna: oklch(0.50 0.13 40);
-  --clay: oklch(0.58 0.10 45);
-  --gold: oklch(0.68 0.13 78);
-  --gold-deep: oklch(0.55 0.13 70);
-  --emerald: oklch(0.48 0.08 170);
-  --ink: oklch(0.25 0.04 50);
-  --parchment: oklch(0.94 0.035 82);
-  --parchment-deep: oklch(0.88 0.05 78);
-  --violet: oklch(0.50 0.10 320);            /* keep for legacy refs */
-  /* Tone tokens — bound to current rank */
-  --tone: var(--sienna);
-  --tone-soft: oklch(0.50 0.13 40 / 0.12);
-  --tone-glow: oklch(0.50 0.13 40 / 0.25);
+  /* Emerald Sufi (Light) — cream paper, deep emerald ink, soft gold */
+  --background: oklch(0.96 0.02 95);            /* warm cream */
+  --foreground: oklch(0.22 0.04 165);           /* deep emerald ink */
+  --card: oklch(0.98 0.015 95 / 0.9);
+  --card-foreground: oklch(0.22 0.04 165);
+  --popover: oklch(0.98 0.015 95);
+  --popover-foreground: oklch(0.22 0.04 165);
+  --primary: oklch(0.50 0.14 165);              /* emerald */
+  --primary-foreground: oklch(0.97 0.02 95);
+  --secondary: oklch(0.42 0.10 165);
+  --secondary-foreground: oklch(0.97 0.02 95);
+  --muted: oklch(0.92 0.02 130 / 0.7);
+  --muted-foreground: oklch(0.42 0.05 165);
+  --accent: oklch(0.78 0.10 90);                /* soft gold */
+  --accent-foreground: oklch(0.22 0.04 165);
+  --destructive: oklch(0.55 0.18 28);
+  --destructive-foreground: oklch(0.97 0.02 95);
+  --border: oklch(0.50 0.10 165 / 0.22);
+  --input: oklch(0.94 0.02 95);
+  --ring: oklch(0.55 0.14 165 / 0.5);
+  /* Brand tokens — Emerald Sufi palette */
+  --emerald: oklch(0.55 0.15 165);
+  --emerald-deep: oklch(0.38 0.12 165);
+  --emerald-glow: oklch(0.65 0.16 165);
+  --gold: oklch(0.82 0.10 90);
+  --gold-deep: oklch(0.65 0.12 88);
+  --cream: oklch(0.96 0.03 90);
+  --ink: oklch(0.20 0.04 165);
+  --parchment: oklch(0.96 0.02 95);
+  --parchment-deep: oklch(0.90 0.03 100);
+  --sienna: oklch(0.55 0.14 40);
+  --clay: oklch(0.55 0.10 45);
+  --violet: oklch(0.50 0.10 320);
+  /* Tone tokens — bound to current rank (emerald-forward) */
+  --tone: var(--emerald);
+  --tone-soft: oklch(0.55 0.15 165 / 0.12);
+  --tone-glow: oklch(0.55 0.15 165 / 0.28);
   --gradient-tone: linear-gradient(135deg, var(--tone) 0%, var(--gold-deep) 100%);
-  --shadow-soft: 0 10px 30px -15px oklch(0.30 0.06 50 / 0.35);
+  --shadow-soft: 0 10px 30px -15px oklch(0.30 0.10 165 / 0.30);
   --shadow-tone: 0 6px 24px -8px var(--tone-glow);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
@@ -116,39 +119,41 @@
 }
 
 .dark {
-  /* Midnight Mihrab — deep night sky with warm gold + parchment ink */
-  --background: oklch(0.18 0.025 50);          /* deep warm midnight */
-  --foreground: oklch(0.93 0.03 82);           /* warm parchment text */
-  --card: oklch(0.22 0.03 55 / 0.85);
-  --card-foreground: oklch(0.93 0.03 82);
-  --popover: oklch(0.22 0.03 55);
-  --popover-foreground: oklch(0.93 0.03 82);
-  --primary: oklch(0.68 0.13 70);              /* aged gold */
-  --primary-foreground: oklch(0.18 0.03 50);
-  --secondary: oklch(0.55 0.10 50);
-  --secondary-foreground: oklch(0.95 0.02 82);
-  --muted: oklch(0.28 0.03 55 / 0.7);
-  --muted-foreground: oklch(0.72 0.04 78);
-  --accent: oklch(0.68 0.13 78);
-  --accent-foreground: oklch(0.18 0.03 50);
-  --destructive: oklch(0.62 0.18 28);
-  --destructive-foreground: oklch(0.97 0.02 82);
-  --border: oklch(0.65 0.08 70 / 0.22);
-  --input: oklch(0.25 0.03 55);
-  --ring: oklch(0.65 0.13 70 / 0.5);
-  /* Brand accents recalibrated for night */
-  --sienna: oklch(0.62 0.14 40);
+  /* Emerald Sufi (Dark) — black-emerald battle-room, cream HUD */
+  --background: oklch(0.16 0.025 165);          /* near-black emerald */
+  --foreground: oklch(0.94 0.03 90);            /* cream */
+  --card: oklch(0.21 0.035 165 / 0.85);
+  --card-foreground: oklch(0.94 0.03 90);
+  --popover: oklch(0.20 0.035 165);
+  --popover-foreground: oklch(0.94 0.03 90);
+  --primary: oklch(0.70 0.16 165);              /* emerald glow */
+  --primary-foreground: oklch(0.14 0.03 165);
+  --secondary: oklch(0.45 0.12 165);
+  --secondary-foreground: oklch(0.95 0.02 90);
+  --muted: oklch(0.26 0.03 165 / 0.7);
+  --muted-foreground: oklch(0.72 0.04 130);
+  --accent: oklch(0.82 0.10 90);
+  --accent-foreground: oklch(0.16 0.03 165);
+  --destructive: oklch(0.62 0.20 28);
+  --destructive-foreground: oklch(0.97 0.02 95);
+  --border: oklch(0.70 0.14 165 / 0.20);
+  --input: oklch(0.24 0.035 165);
+  --ring: oklch(0.70 0.16 165 / 0.55);
+  --emerald: oklch(0.72 0.16 165);
+  --emerald-deep: oklch(0.45 0.13 165);
+  --emerald-glow: oklch(0.80 0.18 165);
+  --gold: oklch(0.86 0.12 90);
+  --gold-deep: oklch(0.72 0.13 88);
+  --cream: oklch(0.94 0.03 90);
+  --ink: oklch(0.94 0.03 90);
+  --parchment: oklch(0.21 0.035 165);
+  --parchment-deep: oklch(0.26 0.04 165);
+  --sienna: oklch(0.65 0.14 40);
   --clay: oklch(0.68 0.10 50);
-  --gold: oklch(0.78 0.14 78);
-  --gold-deep: oklch(0.68 0.13 70);
-  --emerald: oklch(0.62 0.10 170);
-  --ink: oklch(0.93 0.03 82);
-  --parchment: oklch(0.22 0.03 55);
-  --parchment-deep: oklch(0.28 0.03 55);
   --violet: oklch(0.62 0.12 320);
-  --tone: var(--gold);
-  --tone-soft: oklch(0.68 0.13 70 / 0.16);
-  --tone-glow: oklch(0.68 0.13 70 / 0.35);
+  --tone: var(--emerald);
+  --tone-soft: oklch(0.72 0.16 165 / 0.14);
+  --tone-glow: oklch(0.72 0.16 165 / 0.35);
   --shadow-soft: 0 10px 30px -15px oklch(0 0 0 / 0.6);
   --shadow-tone: 0 6px 30px -6px var(--tone-glow);
   --chart-1: oklch(0.78 0.14 78);
@@ -167,25 +172,28 @@
 }
 
 /* Dark-mode tone overrides — keep stage tones warm against night sky */
-.dark .tone-weak      { --tone: oklch(0.62 0.14 40); --tone-soft: oklch(0.62 0.14 40 / 0.18); --tone-glow: oklch(0.62 0.14 40 / 0.35); }
-.dark .tone-rising    { --tone: oklch(0.68 0.13 50); --tone-soft: oklch(0.68 0.13 50 / 0.18); --tone-glow: oklch(0.68 0.13 50 / 0.35); }
-.dark .tone-awakening { --tone: oklch(0.74 0.13 65); --tone-soft: oklch(0.74 0.13 65 / 0.18); --tone-glow: oklch(0.74 0.13 65 / 0.35); }
-.dark .tone-steady    { --tone: oklch(0.62 0.10 170); --tone-soft: oklch(0.62 0.10 170 / 0.18); --tone-glow: oklch(0.62 0.10 170 / 0.35); }
-.dark .tone-luminous  { --tone: oklch(0.78 0.14 78); --tone-soft: oklch(0.78 0.14 78 / 0.20); --tone-glow: oklch(0.78 0.14 78 / 0.40); }
+/* Dark-mode tone overrides — emerald-forward, gold for top tiers */
+.dark .tone-weak      { --tone: oklch(0.55 0.12 165); --tone-soft: oklch(0.55 0.12 165 / 0.18); --tone-glow: oklch(0.55 0.12 165 / 0.35); }
+.dark .tone-rising    { --tone: oklch(0.62 0.14 165); --tone-soft: oklch(0.62 0.14 165 / 0.18); --tone-glow: oklch(0.62 0.14 165 / 0.35); }
+.dark .tone-awakening { --tone: oklch(0.70 0.16 160); --tone-soft: oklch(0.70 0.16 160 / 0.18); --tone-glow: oklch(0.70 0.16 160 / 0.35); }
+.dark .tone-steady    { --tone: oklch(0.76 0.15 145); --tone-soft: oklch(0.76 0.15 145 / 0.18); --tone-glow: oklch(0.76 0.15 145 / 0.35); }
+.dark .tone-luminous  { --tone: oklch(0.86 0.12 90); --tone-soft: oklch(0.86 0.12 90 / 0.20); --tone-glow: oklch(0.86 0.12 90 / 0.40); }
 
 .dark body {
   background:
-    radial-gradient(ellipse at top, oklch(0.24 0.04 55) 0%, var(--background) 60%),
+    radial-gradient(ellipse at top, oklch(0.22 0.05 165) 0%, var(--background) 55%),
+    radial-gradient(ellipse at bottom right, oklch(0.20 0.05 145) 0%, transparent 50%),
     var(--background);
 }
 
 .dark .paper,
 .dark .glass {
   background:
-    linear-gradient(180deg, oklch(0.24 0.03 55 / 0.85), oklch(0.20 0.03 55 / 0.90));
+    linear-gradient(180deg, oklch(0.23 0.04 165 / 0.85), oklch(0.18 0.035 165 / 0.92));
   box-shadow:
     0 10px 30px -15px oklch(0 0 0 / 0.7),
-    inset 0 1px 0 oklch(1 0 0 / 0.05);
+    inset 0 1px 0 oklch(0.85 0.15 165 / 0.08),
+    inset 0 0 0 1px oklch(0.70 0.14 165 / 0.06);
 }
 
 @layer base {
@@ -195,7 +203,8 @@
 
   body {
     background:
-      radial-gradient(ellipse at top, oklch(0.96 0.03 82) 0%, var(--background) 60%),
+      radial-gradient(ellipse at top, oklch(0.98 0.02 130) 0%, var(--background) 60%),
+      radial-gradient(ellipse at bottom left, oklch(0.93 0.04 145) 0%, transparent 55%),
       var(--background);
     background-attachment: fixed;
     color: var(--color-foreground);
@@ -206,37 +215,85 @@
   html { scroll-behavior: smooth; }
 
   /* Tone classes — warm manuscript palette per stage */
-  .tone-weak      { --tone: oklch(0.50 0.13 40); --tone-soft: oklch(0.50 0.13 40 / 0.12); --tone-glow: oklch(0.50 0.13 40 / 0.25); }
-  .tone-rising    { --tone: oklch(0.55 0.13 50); --tone-soft: oklch(0.55 0.13 50 / 0.12); --tone-glow: oklch(0.55 0.13 50 / 0.25); }
-  .tone-awakening { --tone: oklch(0.60 0.13 65); --tone-soft: oklch(0.60 0.13 65 / 0.12); --tone-glow: oklch(0.60 0.13 65 / 0.25); }
-  .tone-steady    { --tone: oklch(0.48 0.10 170); --tone-soft: oklch(0.48 0.10 170 / 0.12); --tone-glow: oklch(0.48 0.10 170 / 0.25); }
-  .tone-luminous  { --tone: oklch(0.62 0.13 78); --tone-soft: oklch(0.62 0.13 78 / 0.14); --tone-glow: oklch(0.62 0.13 78 / 0.30); }
+  .tone-weak      { --tone: oklch(0.45 0.12 165); --tone-soft: oklch(0.45 0.12 165 / 0.12); --tone-glow: oklch(0.45 0.12 165 / 0.25); }
+  .tone-rising    { --tone: oklch(0.50 0.14 165); --tone-soft: oklch(0.50 0.14 165 / 0.12); --tone-glow: oklch(0.50 0.14 165 / 0.25); }
+  .tone-awakening { --tone: oklch(0.55 0.15 160); --tone-soft: oklch(0.55 0.15 160 / 0.12); --tone-glow: oklch(0.55 0.15 160 / 0.25); }
+  .tone-steady    { --tone: oklch(0.60 0.14 145); --tone-soft: oklch(0.60 0.14 145 / 0.12); --tone-glow: oklch(0.60 0.14 145 / 0.25); }
+  .tone-luminous  { --tone: oklch(0.65 0.12 90); --tone-soft: oklch(0.65 0.12 90 / 0.14); --tone-glow: oklch(0.65 0.12 90 / 0.30); }
 
   /* Manuscript paper card */
   .paper {
     background:
-      linear-gradient(180deg, oklch(0.97 0.025 82 / 0.96), oklch(0.93 0.04 80 / 0.94));
+      linear-gradient(180deg, oklch(0.98 0.015 95 / 0.96), oklch(0.94 0.025 100 / 0.94));
     border: 1px solid var(--color-border);
     box-shadow:
       var(--shadow-soft),
       inset 0 1px 0 oklch(1 0 0 / 0.6),
-      inset 0 0 0 1px oklch(0.55 0.08 50 / 0.06);
+      inset 0 0 0 1px oklch(0.50 0.10 165 / 0.06);
     position: relative;
   }
   .paper::before {
     content: "";
     position: absolute; inset: 6px;
-    border: 1px solid oklch(0.55 0.10 50 / 0.18);
+    border: 1px solid oklch(0.50 0.10 165 / 0.16);
     border-radius: inherit;
     pointer-events: none;
   }
   /* Legacy alias so existing .glass class still works */
   .glass {
     background:
-      linear-gradient(180deg, oklch(0.97 0.025 82 / 0.96), oklch(0.93 0.04 80 / 0.94));
+      linear-gradient(180deg, oklch(0.98 0.015 95 / 0.96), oklch(0.94 0.025 100 / 0.94));
     border: 1px solid var(--color-border);
     box-shadow: var(--shadow-soft), inset 0 1px 0 oklch(1 0 0 / 0.5);
   }
+
+  /* === Commander HUD utilities (new design idea) === */
+  .hud {
+    position: relative;
+    background: linear-gradient(180deg,
+      color-mix(in oklab, var(--card) 92%, transparent),
+      color-mix(in oklab, var(--card) 88%, transparent));
+    border: 1px solid color-mix(in oklab, var(--tone) 30%, transparent);
+    border-radius: 14px;
+    box-shadow:
+      var(--shadow-soft),
+      inset 0 1px 0 oklch(1 0 0 / 0.06);
+  }
+  .hud-corners::before,
+  .hud-corners::after {
+    content: "";
+    position: absolute;
+    width: 14px; height: 14px;
+    border: 1.5px solid var(--tone);
+    opacity: 0.85;
+    pointer-events: none;
+  }
+  .hud-corners::before { top: -1px; right: -1px; border-left: 0; border-bottom: 0; border-top-right-radius: 14px; }
+  .hud-corners::after  { bottom: -1px; left: -1px; border-right: 0; border-top: 0; border-bottom-left-radius: 14px; }
+
+  .mono { font-family: "JetBrains Mono", ui-monospace, monospace; font-feature-settings: "tnum" 1; }
+
+  .scanlines {
+    background-image: repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 3px,
+      color-mix(in oklab, var(--tone) 8%, transparent) 3px,
+      color-mix(in oklab, var(--tone) 8%, transparent) 4px
+    );
+  }
+
+  .grid-bg {
+    background-image:
+      linear-gradient(color-mix(in oklab, var(--tone) 8%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in oklab, var(--tone) 8%, transparent) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .ring-tone { box-shadow: 0 0 0 1px color-mix(in oklab, var(--tone) 45%, transparent), 0 0 24px var(--tone-glow); }
+
+  @keyframes pulse-dot { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+  .pulse-dot { animation: pulse-dot 1.6s ease-in-out infinite; }
 
   .tone-ring {
     box-shadow: var(--shadow-tone);
