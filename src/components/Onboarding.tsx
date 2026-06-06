@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import { Sword } from "lucide-react";
+import { Sparkles } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -50,14 +50,16 @@ export function Onboarding() {
     >
       <div className="w-full max-w-sm paper rounded-3xl p-6 space-y-5 relative">
         <div className="flex flex-col items-center text-center gap-2">
-          <div className="w-14 h-14 rounded-2xl bg-[var(--tone-soft)] flex items-center justify-center text-[var(--tone)] ring-1 ring-[var(--gold-deep)]/40">
-            <Sword className="w-7 h-7" />
-          </div>
+          <img
+            src="/app-icon.png"
+            alt="طوبى"
+            className="w-14 h-14 rounded-2xl shadow-lg shadow-[var(--tone-glow)] ring-1 ring-[var(--tone)]/40 object-cover"
+          />
           <h2
-            className="text-xl font-black text-[var(--ink)]"
+            className="text-xl font-black text-foreground"
             style={{ fontFamily: "Amiri, serif" }}
           >
-            أهلاً بك في رحلة النَّفْس
+            أهلاً بك في طوبى
           </h2>
           <p className="text-[11px] text-muted-foreground">
             ٣ أسئلة قصيرة لنُخصّص لك مرشدك
@@ -77,8 +79,8 @@ export function Onboarding() {
         <form onSubmit={next} className="space-y-4">
           {step === 0 && (
             <div className="space-y-2">
-              <label className="text-[12px] font-bold text-[var(--ink)]">
-                ما اسمك يا فارس؟
+              <label className="text-[12px] font-bold text-foreground">
+                ما اسمك يا صديقي؟
               </label>
               <Input
                 autoFocus
@@ -93,7 +95,7 @@ export function Onboarding() {
 
           {step === 1 && (
             <div className="space-y-2">
-              <label className="text-[12px] font-bold text-[var(--ink)]">
+              <label className="text-[12px] font-bold text-foreground">
                 أكبر تحدٍّ تواجهه الآن؟
               </label>
               <div className="grid grid-cols-2 gap-2">
@@ -126,7 +128,7 @@ export function Onboarding() {
 
           {step === 2 && (
             <div className="space-y-2">
-              <label className="text-[12px] font-bold text-[var(--ink)]">
+              <label className="text-[12px] font-bold text-foreground">
                 ما هدفك في ٣٠ يوماً القادمة؟
               </label>
               <Textarea
@@ -144,9 +146,9 @@ export function Onboarding() {
           <Button
             type="submit"
             disabled={!canNext}
-            className="w-full h-11 rounded-xl bg-[var(--tone)] text-white font-black"
+            className="w-full h-11 rounded-xl bg-[var(--tone)] text-primary-foreground font-black"
           >
-            {step < 2 ? "التالي" : "ابدأ الرحلة ⚔"}
+            {step < 2 ? "التالي" : "ابدأ رحلتك ✦"}
           </Button>
         </form>
       </div>
