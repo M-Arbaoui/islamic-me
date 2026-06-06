@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useChat } from "@ai-sdk/react";
+import { DefaultChatTransport, type UIMessage } from "ai";
 import ReactMarkdown from "react-markdown";
+import { Send, Sparkles, Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import type { DailyHabits, Stage } from "@/lib/nafs-stages";
 import { useProfile } from "@/hooks/useProfile";
-
-type Mode = "roast" | "motivate" | "analyze";
 
 type Props = {
   stage: Stage;
@@ -15,131 +16,173 @@ type Props = {
   habits: DailyHabits;
 };
 
-const MODE_LABEL: Record<Mode, string> = {
-  roast: "اجلدني",
-  motivate: "حفّزني",
-  analyze: "حلّل اعترافي",
-};
+const STARTERS = [
+  "أحسّ بفتور… كيف أستعيد همّتي؟",
+  "ذكّرني بفضل الذِّكر اليوم.",
+  "كيف أخشع في الصلاة؟",
+  "أسأت اليوم… أريد كلمةً ترفعني.",
+];
 
 export function AiAdvisor({ stage, streakDays, todayScore, habits }: Props) {
   const { profile } = useProfile();
-  const [confession, setConfession] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [response, setResponse] = useState<{ mode: Mode; text: string } | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [input, setInput] = useState("");
+  const scrollerRef = useRef<HTMLDivElement | null>(null);
 
-  async function ask(mode: Mode) {
-    setLoading(true);
-    setError(null);
-    setResponse(null);
-    try {
-      const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          mode,
-          stageIndex: stage.index,
-          stageName: stage.name,
-          streakDays,
-          todayScore,
-          habits,
-          userMessage: mode === "analyze" ? confession.trim() : undefined,
-          profile: profile
-            ? {
-                name: profile.name,
-                struggle: profile.struggle,
-                goal: profile.goal,
-              }
-            : undefined,
-        }),
-      });
-      if (!res.ok) {
-        if (res.status === 429) throw new Error("تجاوزت الحد. حاول بعد قليل.");
-        if (res.status === 402) throw new Error("نفد الرصيد. أضف رصيداً للمساحة.");
-        throw new Error("تعذّر الاتصال بالمرشد.");
-      }
-      const data = (await res.json()) as { text: string };
-      setResponse({ mode, text: data.text });
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "خطأ غير معروف");
-    } finally {
-      setLoading(false);
-    }
+  const { messages, sendMessage, status, error } = useChat({
+    transport: new DefaultChatTransport({
+      api: "/api/chat",
+      prepareSendMessagesRequest: ({ messages, body }) => ({
+        body: {
+          messages,
+          context: {
+            stageIndex: stage.index,
+            stageName: stage.name,
+            streakDays,
+            todayScore,
+            habits,
+            profile: profile
+              ? { name: profile.name, struggle: profile.struggle, goal: profile.goal }
+              : undefined,
+          },
+          ...body,
+        },
+      }),
+    }),
+  });
+
+  const busy = status === "submitted" || status === "streaming";
+
+  useEffect(() => {
+    scrollerRef.current?.scrollTo({ top: scrollerRef.current.scrollHeight, behavior: "smooth" });
+  }, [messages, status]);
+
+  function send(text: string) {
+    const t = text.trim();
+    if (!t || busy) return;
+    void sendMessage({ text: t });
+    setInput("");
   }
 
   return (
-    <section className="glass rounded-3xl p-5 space-y-4 tone-ring">
+    <section className="hud hud-corners p-4 space-y-3">
       <div className="flex items-center justify-between">
-        <h2 className="text-base font-black text-foreground">المرشد الذكي</h2>
-        <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
-          AI · مجاهَدة
-        </span>
+        <div className="flex items-center gap-2">
+          <span className="w-8 h-8 rounded-xl bg-[var(--tone-soft)] flex items-center justify-center text-[var(--tone)] ring-tone">
+            <Sparkles className="w-4 h-4" />
+          </span>
+          <div className="text-right">
+            <h2 className="text-sm font-black text-foreground">المُرشد</h2>
+            <p className="text-[10px] mono tracking-widest text-muted-foreground">
+              صديقك الروحاني · محادثة
+            </p>
+          </div>
+        </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-2">
-        <Button
-          type="button"
-          disabled={loading}
-          onClick={() => ask("roast")}
-          className="bg-[oklch(0.45_0.18_25)] hover:bg-[oklch(0.5_0.18_25)] text-white font-bold rounded-xl h-11"
-        >
-          🔥 {MODE_LABEL.roast}
-        </Button>
-        <Button
-          type="button"
-          disabled={loading}
-          onClick={() => ask("motivate")}
-          className="bg-[var(--emerald)] hover:opacity-90 text-white font-bold rounded-xl h-11"
-        >
-          🌿 {MODE_LABEL.motivate}
-        </Button>
+      <div
+        ref={scrollerRef}
+        className="min-h-[260px] max-h-[480px] overflow-y-auto rounded-2xl bg-background/40 border border-border/60 p-3 space-y-3"
+      >
+        {messages.length === 0 && (
+          <div className="text-center py-4 space-y-3">
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              تحدّث بصراحة… بدون أحكام، بدون لوم. مجرد كلمة تنهض بك.
+            </p>
+            <div className="grid grid-cols-1 gap-1.5">
+              {STARTERS.map((s) => (
+                <button
+                  key={s}
+                  type="button"
+                  onClick={() => send(s)}
+                  disabled={busy}
+                  className="text-xs text-right rounded-xl border border-border/60 bg-card/60 px-3 py-2 hover:border-[var(--tone)]/50 hover:bg-[var(--tone-soft)] transition disabled:opacity-50"
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {messages.map((m: UIMessage) => (
+          <Bubble key={m.id} message={m} />
+        ))}
+
+        {status === "submitted" && (
+          <div className="flex items-center gap-2 text-xs text-muted-foreground px-2">
+            <Loader2 className="w-3.5 h-3.5 animate-spin text-[var(--tone)]" />
+            المُرشد يتأمّل…
+          </div>
+        )}
+
+        {error && (
+          <div className="text-xs text-destructive bg-destructive/10 border border-destructive/30 rounded-xl p-2">
+            تعذّر الاتصال بالمُرشد. حاول بعد قليل.
+          </div>
+        )}
       </div>
 
-      <div className="space-y-2">
-        <label className="text-[11px] font-bold text-muted-foreground tracking-wider">
-          اعترف بمبرراتك (اختياري)
-        </label>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          send(input);
+        }}
+        className="flex items-end gap-2"
+      >
         <Textarea
-          value={confession}
-          onChange={(e) => setConfession(e.target.value)}
-          rows={3}
-          maxLength={600}
-          placeholder="مثال: متعب اليوم، سأترك صلاة الفجر لمرة واحدة فقط…"
-          className="bg-input/60 border-border/60 text-sm rounded-xl resize-none"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              send(input);
+            }
+          }}
+          rows={2}
+          maxLength={800}
+          placeholder="اكتب ما يجول في صدرك… (Enter للإرسال)"
+          className="bg-input/60 border-border/60 text-sm rounded-2xl resize-none flex-1"
+          dir="rtl"
         />
         <Button
-          type="button"
-          disabled={loading || confession.trim().length === 0}
-          onClick={() => ask("analyze")}
-          className="w-full bg-gradient-to-l from-[var(--gold)] to-[var(--emerald)] text-[oklch(0.18_0.02_150)] font-black rounded-xl h-11"
+          type="submit"
+          disabled={busy || input.trim().length === 0}
+          className="h-11 w-11 p-0 rounded-2xl bg-[var(--tone)] hover:opacity-90 text-primary-foreground shrink-0"
+          aria-label="إرسال"
         >
-          🧠 {MODE_LABEL.analyze}
+          <Send className="w-4 h-4" />
         </Button>
-      </div>
-
-      {loading && (
-        <div className="flex items-center gap-2 text-xs text-muted-foreground">
-          <span className="inline-block w-2 h-2 rounded-full bg-[var(--tone)] animate-pulse" />
-          المرشد يتأمّل…
-        </div>
-      )}
-
-      {error && (
-        <div className="text-xs text-destructive bg-destructive/10 border border-destructive/30 rounded-xl p-3">
-          {error}
-        </div>
-      )}
-
-      {response && (
-        <div className="animate-fade-up rounded-2xl bg-[var(--tone-soft)] border border-[var(--tone)]/30 p-4 space-y-2">
-          <div className="text-[10px] font-mono uppercase tracking-widest text-[var(--tone)]">
-            {MODE_LABEL[response.mode]}
-          </div>
-          <div className="text-sm leading-relaxed text-foreground prose prose-invert prose-sm max-w-none">
-            <ReactMarkdown>{response.text}</ReactMarkdown>
-          </div>
-        </div>
-      )}
+      </form>
     </section>
+  );
+}
+
+function Bubble({ message }: { message: UIMessage }) {
+  const isUser = message.role === "user";
+  const text = message.parts
+    .map((p) => (p.type === "text" ? p.text : ""))
+    .join("")
+    .trim();
+
+  if (!text) return null;
+
+  return (
+    <div className={`flex ${isUser ? "justify-start" : "justify-end"}`}>
+      <div
+        className={
+          isUser
+            ? "max-w-[85%] rounded-2xl rounded-tl-sm bg-[var(--tone)] text-primary-foreground px-3 py-2 text-sm leading-relaxed shadow-sm"
+            : "max-w-[90%] text-sm leading-relaxed text-foreground"
+        }
+      >
+        {isUser ? (
+          <p className="whitespace-pre-wrap">{text}</p>
+        ) : (
+          <div className="prose prose-sm dark:prose-invert max-w-none [&_p]:my-1 [&_strong]:text-[var(--tone)]">
+            <ReactMarkdown>{text}</ReactMarkdown>
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
