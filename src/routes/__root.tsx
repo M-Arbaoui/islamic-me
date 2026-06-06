@@ -74,7 +74,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
       { title: "طوبى" },
       { name: "description", content: "طوبى — تطبيق روحاني لتزكية النفس: عدّاد صمودك، مُرشدك الرحيم، وأذكارك اليومية." },
-      { name: "theme-color", content: "#7c2d12" },
+      { name: "theme-color", content: "#2d8a9e" },
       { property: "og:title", content: "طوبى" },
       { property: "og:description", content: "ارتقِ من الأسير إلى الفاتح. رتب، أذكار، قرآن، ومرشد ذكي." },
       { property: "og:type", content: "website" },
