@@ -19,7 +19,7 @@ import {
 export const Route = createFileRoute("/quran")({
   head: () => ({
     meta: [
-      { title: "NAFS — قارئ القرآن" },
+      { title: "طوبى — قارئ القرآن" },
       { name: "description", content: "اقرأ القرآن الكريم مع حفظ آخر آية." },
     ],
   }),

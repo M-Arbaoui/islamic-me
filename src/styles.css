@@ -63,46 +63,52 @@
 
 :root {
   --radius: 1rem;
-  /* Emerald Sufi (Light) — cream paper, deep emerald ink, soft gold */
-  --background: oklch(0.96 0.02 95);            /* warm cream */
-  --foreground: oklch(0.22 0.04 165);           /* deep emerald ink */
-  --card: oklch(0.98 0.015 95 / 0.9);
-  --card-foreground: oklch(0.22 0.04 165);
-  --popover: oklch(0.98 0.015 95);
-  --popover-foreground: oklch(0.22 0.04 165);
-  --primary: oklch(0.50 0.14 165);              /* emerald */
-  --primary-foreground: oklch(0.97 0.02 95);
-  --secondary: oklch(0.42 0.10 165);
-  --secondary-foreground: oklch(0.97 0.02 95);
-  --muted: oklch(0.92 0.02 130 / 0.7);
-  --muted-foreground: oklch(0.42 0.05 165);
-  --accent: oklch(0.78 0.10 90);                /* soft gold */
-  --accent-foreground: oklch(0.22 0.04 165);
-  --destructive: oklch(0.55 0.18 28);
-  --destructive-foreground: oklch(0.97 0.02 95);
-  --border: oklch(0.50 0.10 165 / 0.22);
-  --input: oklch(0.94 0.02 95);
-  --ring: oklch(0.55 0.14 165 / 0.5);
-  /* Brand tokens — Emerald Sufi palette */
-  --emerald: oklch(0.55 0.15 165);
-  --emerald-deep: oklch(0.38 0.12 165);
-  --emerald-glow: oklch(0.65 0.16 165);
+  /* Ocean Deep (Light) — soft sky paper, deep navy ink, teal accents */
+  --background: oklch(0.97 0.012 230);          /* very pale sky */
+  --foreground: oklch(0.22 0.07 250);           /* deep navy ink */
+  --card: oklch(0.99 0.008 230 / 0.92);
+  --card-foreground: oklch(0.22 0.07 250);
+  --popover: oklch(0.99 0.008 230);
+  --popover-foreground: oklch(0.22 0.07 250);
+  --primary: oklch(0.55 0.11 220);              /* teal-navy */
+  --primary-foreground: oklch(0.98 0.01 230);
+  --secondary: oklch(0.42 0.09 245);
+  --secondary-foreground: oklch(0.98 0.01 230);
+  --muted: oklch(0.93 0.015 230 / 0.7);
+  --muted-foreground: oklch(0.48 0.05 240);
+  --accent: oklch(0.75 0.10 195);               /* soft teal */
+  --accent-foreground: oklch(0.22 0.07 250);
+  --destructive: oklch(0.58 0.18 28);
+  --destructive-foreground: oklch(0.98 0.01 230);
+  --border: oklch(0.55 0.08 220 / 0.20);
+  --input: oklch(0.95 0.012 230);
+  --ring: oklch(0.60 0.11 210 / 0.5);
+  /* Brand tokens — Ocean Deep palette */
+  --ocean-deep: oklch(0.25 0.08 250);           /* #0c2340 */
+  --ocean: oklch(0.40 0.09 235);                /* #1a4a6e */
+  --ocean-bright: oklch(0.62 0.10 210);         /* #2d8a9e */
+  --foam: oklch(0.78 0.08 190);                 /* #5cbdb9 */
+  --pearl: oklch(0.96 0.012 220);
+  --ink: oklch(0.20 0.07 250);
   --gold: oklch(0.82 0.10 90);
   --gold-deep: oklch(0.65 0.12 88);
-  --cream: oklch(0.96 0.03 90);
-  --ink: oklch(0.20 0.04 165);
-  --parchment: oklch(0.96 0.02 95);
-  --parchment-deep: oklch(0.90 0.03 100);
-  --sienna: oklch(0.55 0.14 40);
-  --clay: oklch(0.55 0.10 45);
-  --violet: oklch(0.50 0.10 320);
-  /* Tone tokens — bound to current rank (emerald-forward) */
-  --tone: var(--emerald);
-  --tone-soft: oklch(0.55 0.15 165 / 0.12);
-  --tone-glow: oklch(0.55 0.15 165 / 0.28);
+  --parchment: oklch(0.96 0.012 230);
+  --parchment-deep: oklch(0.90 0.018 230);
+  --violet: oklch(0.50 0.10 290);
+  /* Tone tokens — bound to current rank (ocean-forward) */
+  --tone: var(--ocean-bright);
+  --tone-soft: oklch(0.62 0.10 210 / 0.13);
+  --tone-glow: oklch(0.62 0.10 210 / 0.32);
   --gradient-tone: linear-gradient(135deg, var(--tone) 0%, var(--gold-deep) 100%);
-  --shadow-soft: 0 10px 30px -15px oklch(0.30 0.10 165 / 0.30);
+  --shadow-soft: 0 10px 30px -15px oklch(0.25 0.10 250 / 0.30);
   --shadow-tone: 0 6px 24px -8px var(--tone-glow);
+  /* Backwards-compat aliases — mapped to Ocean palette */
+  --emerald: var(--ocean-bright);
+  --emerald-deep: var(--ocean);
+  --emerald-glow: var(--foam);
+  --sienna: var(--ocean);
+  --clay: var(--foam);
+  --cream: var(--pearl);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -119,41 +125,40 @@
 }
 
 .dark {
-  /* Emerald Sufi (Dark) — black-emerald battle-room, cream HUD */
-  --background: oklch(0.16 0.025 165);          /* near-black emerald */
-  --foreground: oklch(0.94 0.03 90);            /* cream */
-  --card: oklch(0.21 0.035 165 / 0.85);
-  --card-foreground: oklch(0.94 0.03 90);
-  --popover: oklch(0.20 0.035 165);
-  --popover-foreground: oklch(0.94 0.03 90);
-  --primary: oklch(0.70 0.16 165);              /* emerald glow */
-  --primary-foreground: oklch(0.14 0.03 165);
-  --secondary: oklch(0.45 0.12 165);
-  --secondary-foreground: oklch(0.95 0.02 90);
-  --muted: oklch(0.26 0.03 165 / 0.7);
-  --muted-foreground: oklch(0.72 0.04 130);
-  --accent: oklch(0.82 0.10 90);
-  --accent-foreground: oklch(0.16 0.03 165);
-  --destructive: oklch(0.62 0.20 28);
-  --destructive-foreground: oklch(0.97 0.02 95);
-  --border: oklch(0.70 0.14 165 / 0.20);
-  --input: oklch(0.24 0.035 165);
-  --ring: oklch(0.70 0.16 165 / 0.55);
-  --emerald: oklch(0.72 0.16 165);
-  --emerald-deep: oklch(0.45 0.13 165);
-  --emerald-glow: oklch(0.80 0.18 165);
+  /* Ocean Deep (Dark) — abyssal navy with teal & foam glow */
+  --background: oklch(0.17 0.05 250);           /* abyss */
+  --foreground: oklch(0.95 0.012 220);
+  --card: oklch(0.22 0.06 248 / 0.88);
+  --card-foreground: oklch(0.95 0.012 220);
+  --popover: oklch(0.21 0.055 248);
+  --popover-foreground: oklch(0.95 0.012 220);
+  --primary: oklch(0.72 0.11 200);              /* glowing teal */
+  --primary-foreground: oklch(0.14 0.05 250);
+  --secondary: oklch(0.42 0.09 235);
+  --secondary-foreground: oklch(0.96 0.01 220);
+  --muted: oklch(0.28 0.05 248 / 0.7);
+  --muted-foreground: oklch(0.74 0.04 215);
+  --accent: oklch(0.80 0.10 195);
+  --accent-foreground: oklch(0.17 0.05 250);
+  --destructive: oklch(0.65 0.20 28);
+  --destructive-foreground: oklch(0.98 0.01 230);
+  --border: oklch(0.72 0.10 200 / 0.18);
+  --input: oklch(0.24 0.055 248);
+  --ring: oklch(0.72 0.11 200 / 0.55);
+  --ocean-deep: oklch(0.18 0.06 250);
+  --ocean: oklch(0.38 0.09 235);
+  --ocean-bright: oklch(0.68 0.11 200);
+  --foam: oklch(0.82 0.10 190);
+  --pearl: oklch(0.95 0.012 220);
+  --ink: oklch(0.95 0.012 220);
   --gold: oklch(0.86 0.12 90);
   --gold-deep: oklch(0.72 0.13 88);
-  --cream: oklch(0.94 0.03 90);
-  --ink: oklch(0.94 0.03 90);
-  --parchment: oklch(0.21 0.035 165);
-  --parchment-deep: oklch(0.26 0.04 165);
-  --sienna: oklch(0.65 0.14 40);
-  --clay: oklch(0.68 0.10 50);
-  --violet: oklch(0.62 0.12 320);
-  --tone: var(--emerald);
-  --tone-soft: oklch(0.72 0.16 165 / 0.14);
-  --tone-glow: oklch(0.72 0.16 165 / 0.35);
+  --parchment: oklch(0.22 0.06 248);
+  --parchment-deep: oklch(0.27 0.06 248);
+  --violet: oklch(0.65 0.12 290);
+  --tone: var(--ocean-bright);
+  --tone-soft: oklch(0.72 0.11 200 / 0.16);
+  --tone-glow: oklch(0.72 0.11 200 / 0.40);
   --shadow-soft: 0 10px 30px -15px oklch(0 0 0 / 0.6);
   --shadow-tone: 0 6px 30px -6px var(--tone-glow);
   --chart-1: oklch(0.78 0.14 78);
@@ -171,29 +176,28 @@
   --sidebar-ring: oklch(0.65 0.13 70 / 0.5);
 }
 
-/* Dark-mode tone overrides — keep stage tones warm against night sky */
-/* Dark-mode tone overrides — emerald-forward, gold for top tiers */
-.dark .tone-weak      { --tone: oklch(0.55 0.12 165); --tone-soft: oklch(0.55 0.12 165 / 0.18); --tone-glow: oklch(0.55 0.12 165 / 0.35); }
-.dark .tone-rising    { --tone: oklch(0.62 0.14 165); --tone-soft: oklch(0.62 0.14 165 / 0.18); --tone-glow: oklch(0.62 0.14 165 / 0.35); }
-.dark .tone-awakening { --tone: oklch(0.70 0.16 160); --tone-soft: oklch(0.70 0.16 160 / 0.18); --tone-glow: oklch(0.70 0.16 160 / 0.35); }
-.dark .tone-steady    { --tone: oklch(0.76 0.15 145); --tone-soft: oklch(0.76 0.15 145 / 0.18); --tone-glow: oklch(0.76 0.15 145 / 0.35); }
+/* Dark-mode tone overrides — ocean tiers from deep navy to luminous foam/gold */
+.dark .tone-weak      { --tone: oklch(0.55 0.09 250); --tone-soft: oklch(0.55 0.09 250 / 0.18); --tone-glow: oklch(0.55 0.09 250 / 0.35); }
+.dark .tone-rising    { --tone: oklch(0.62 0.10 235); --tone-soft: oklch(0.62 0.10 235 / 0.18); --tone-glow: oklch(0.62 0.10 235 / 0.35); }
+.dark .tone-awakening { --tone: oklch(0.70 0.11 215); --tone-soft: oklch(0.70 0.11 215 / 0.18); --tone-glow: oklch(0.70 0.11 215 / 0.35); }
+.dark .tone-steady    { --tone: oklch(0.78 0.10 195); --tone-soft: oklch(0.78 0.10 195 / 0.20); --tone-glow: oklch(0.78 0.10 195 / 0.38); }
 .dark .tone-luminous  { --tone: oklch(0.86 0.12 90); --tone-soft: oklch(0.86 0.12 90 / 0.20); --tone-glow: oklch(0.86 0.12 90 / 0.40); }
 
 .dark body {
   background:
-    radial-gradient(ellipse at top, oklch(0.22 0.05 165) 0%, var(--background) 55%),
-    radial-gradient(ellipse at bottom right, oklch(0.20 0.05 145) 0%, transparent 50%),
+    radial-gradient(ellipse at top, oklch(0.24 0.07 245) 0%, var(--background) 55%),
+    radial-gradient(ellipse at bottom right, oklch(0.28 0.09 210) 0%, transparent 50%),
     var(--background);
 }
 
 .dark .paper,
 .dark .glass {
   background:
-    linear-gradient(180deg, oklch(0.23 0.04 165 / 0.85), oklch(0.18 0.035 165 / 0.92));
+    linear-gradient(180deg, oklch(0.24 0.06 248 / 0.88), oklch(0.19 0.055 250 / 0.93));
   box-shadow:
     0 10px 30px -15px oklch(0 0 0 / 0.7),
-    inset 0 1px 0 oklch(0.85 0.15 165 / 0.08),
-    inset 0 0 0 1px oklch(0.70 0.14 165 / 0.06);
+    inset 0 1px 0 oklch(0.85 0.10 200 / 0.08),
+    inset 0 0 0 1px oklch(0.72 0.10 200 / 0.07);
 }
 
 @layer base {
@@ -203,8 +207,8 @@
 
   body {
     background:
-      radial-gradient(ellipse at top, oklch(0.98 0.02 130) 0%, var(--background) 60%),
-      radial-gradient(ellipse at bottom left, oklch(0.93 0.04 145) 0%, transparent 55%),
+      radial-gradient(ellipse at top, oklch(0.98 0.015 220) 0%, var(--background) 60%),
+      radial-gradient(ellipse at bottom left, oklch(0.92 0.03 200) 0%, transparent 55%),
       var(--background);
     background-attachment: fixed;
     color: var(--color-foreground);
@@ -214,12 +218,12 @@
 
   html { scroll-behavior: smooth; }
 
-  /* Tone classes — warm manuscript palette per stage */
-  .tone-weak      { --tone: oklch(0.45 0.12 165); --tone-soft: oklch(0.45 0.12 165 / 0.12); --tone-glow: oklch(0.45 0.12 165 / 0.25); }
-  .tone-rising    { --tone: oklch(0.50 0.14 165); --tone-soft: oklch(0.50 0.14 165 / 0.12); --tone-glow: oklch(0.50 0.14 165 / 0.25); }
-  .tone-awakening { --tone: oklch(0.55 0.15 160); --tone-soft: oklch(0.55 0.15 160 / 0.12); --tone-glow: oklch(0.55 0.15 160 / 0.25); }
-  .tone-steady    { --tone: oklch(0.60 0.14 145); --tone-soft: oklch(0.60 0.14 145 / 0.12); --tone-glow: oklch(0.60 0.14 145 / 0.25); }
-  .tone-luminous  { --tone: oklch(0.65 0.12 90); --tone-soft: oklch(0.65 0.12 90 / 0.14); --tone-glow: oklch(0.65 0.12 90 / 0.30); }
+  /* Tone classes — ocean palette per stage */
+  .tone-weak      { --tone: oklch(0.45 0.09 250); --tone-soft: oklch(0.45 0.09 250 / 0.12); --tone-glow: oklch(0.45 0.09 250 / 0.25); }
+  .tone-rising    { --tone: oklch(0.50 0.10 235); --tone-soft: oklch(0.50 0.10 235 / 0.12); --tone-glow: oklch(0.50 0.10 235 / 0.25); }
+  .tone-awakening { --tone: oklch(0.58 0.11 215); --tone-soft: oklch(0.58 0.11 215 / 0.12); --tone-glow: oklch(0.58 0.11 215 / 0.25); }
+  .tone-steady    { --tone: oklch(0.66 0.10 195); --tone-soft: oklch(0.66 0.10 195 / 0.14); --tone-glow: oklch(0.66 0.10 195 / 0.30); }
+  .tone-luminous  { --tone: oklch(0.72 0.10 90); --tone-soft: oklch(0.72 0.10 90 / 0.16); --tone-glow: oklch(0.72 0.10 90 / 0.32); }
 
   /* Manuscript paper card */
   .paper {

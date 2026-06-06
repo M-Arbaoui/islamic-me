@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 export const Route = createFileRoute("/tasbih")({
   head: () => ({
     meta: [
-      { title: "NAFS — التسبيح" },
+      { title: "طوبى — التسبيح" },
       { name: "description", content: "عدّاد تسبيح مع حفظ يومي." },
     ],
   }),

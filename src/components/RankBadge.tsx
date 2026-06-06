@@ -2,7 +2,7 @@ import { type CSSProperties } from "react";
 
 import { RANK_PORTRAITS } from "@/lib/rank-portraits";
 
-// Illustrated warrior portrait inside an ornate manuscript medallion.
+// Character portrait card — ocean-themed, clean character medallion (no star/spike chrome).
 
 type Props = {
   tier: number;
@@ -11,25 +11,14 @@ type Props = {
   className?: string;
 };
 
-function starPoints(spikes: number, outer: number, inner: number, cx = 0, cy = 0) {
-  const pts: string[] = [];
-  const step = Math.PI / spikes;
-  for (let i = 0; i < spikes * 2; i++) {
-    const r = i % 2 === 0 ? outer : inner;
-    const a = i * step - Math.PI / 2;
-    pts.push(`${(cx + Math.cos(a) * r).toFixed(2)},${(cy + Math.sin(a) * r).toFixed(2)}`);
-  }
-  return pts.join(" ");
-}
-
 export function RankBadge({ tier, size = 96, locked = false, className = "" }: Props) {
   const t = Math.max(0, Math.min(9, tier));
   const portrait = RANK_PORTRAITS[t];
   const id = `rb-${t}`;
   const style: CSSProperties = {
     filter: locked
-      ? "drop-shadow(0 2px 6px oklch(0.20 0.04 50 / 0.4))"
-      : "drop-shadow(0 4px 10px oklch(0.30 0.06 50 / 0.35))",
+      ? "drop-shadow(0 2px 6px oklch(0.18 0.06 250 / 0.45))"
+      : "drop-shadow(0 6px 18px var(--tone-glow))",
     opacity: locked ? 0.85 : 1,
   };
 
@@ -41,116 +30,92 @@ export function RankBadge({ tier, size = 96, locked = false, className = "" }: P
     >
       <svg width={size} height={size} viewBox="0 0 120 120" className="absolute inset-0">
         <defs>
-          <radialGradient id={`${id}-bg`} cx="50%" cy="45%" r="60%">
-            <stop offset="0%" stopColor="var(--parchment)" />
-            <stop offset="100%" stopColor="var(--parchment-deep)" />
-          </radialGradient>
-          <radialGradient id={`${id}-glow`} cx="50%" cy="50%" r="50%">
+          <radialGradient id={`${id}-aura`} cx="50%" cy="50%" r="55%">
             <stop offset="0%" stopColor="var(--tone-glow)" />
             <stop offset="100%" stopColor="transparent" />
           </radialGradient>
+          <linearGradient id={`${id}-ring`} x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="var(--tone)" />
+            <stop offset="100%" stopColor="var(--foam)" />
+          </linearGradient>
           <clipPath id={`${id}-clip`}>
-            <circle cx="60" cy="60" r="38" />
+            <circle cx="60" cy="60" r="46" />
           </clipPath>
         </defs>
-        {/* outer aura */}
-        {!locked && (
-          <circle cx={60} cy={60} r={58} fill={`url(#${id}-glow)`} />
-        )}
-        {/* 12-point outer star */}
-        <polygon
-          points={starPoints(12, 56, 46, 60, 60)}
-          fill="var(--gold)"
-          opacity={locked ? 0.15 : 0.30}
-        />
-        {/* 8-point inner star */}
-        <polygon
-          points={starPoints(8, 50, 40, 60, 60)}
-          fill={`url(#${id}-bg)`}
-          stroke="var(--gold-deep)"
-          strokeWidth={1.4}
-        />
-        {/* portrait clipped to circle */}
+
+        {/* soft aura */}
+        {!locked && <circle cx={60} cy={60} r={58} fill={`url(#${id}-aura)`} />}
+
+        {/* portrait — character front and center */}
         {locked ? (
           <g clipPath={`url(#${id}-clip)`}>
-            <rect x={22} y={22} width={76} height={76} fill="var(--parchment-deep)" />
+            <rect x={14} y={14} width={92} height={92} fill="var(--parchment-deep)" />
             <image
               href={portrait}
-              x={22}
-              y={22}
-              width={76}
-              height={76}
+              x={14}
+              y={14}
+              width={92}
+              height={92}
               preserveAspectRatio="xMidYMid slice"
-              style={{ filter: "brightness(0) opacity(0.55)" }}
+              style={{ filter: "grayscale(1) brightness(0.55) opacity(0.55)" }}
             />
-            {/* lock glyph */}
-            <g transform="translate(60 64)">
-              <rect x={-7} y={-2} width={14} height={11} rx={2} fill="var(--gold-deep)" opacity={0.85} />
-              <path d="M -4 -2 V -6 a 4 4 0 0 1 8 0 V -2" fill="none" stroke="var(--gold-deep)" strokeWidth={1.6} opacity={0.85} />
+            <g transform="translate(60 62)">
+              <rect x={-9} y={-3} width={18} height={14} rx={3} fill="var(--ocean-bright)" opacity={0.9} />
+              <path d="M -5 -3 V -8 a 5 5 0 0 1 10 0 V -3" fill="none" stroke="var(--ocean-bright)" strokeWidth={2} opacity={0.9} />
             </g>
           </g>
         ) : (
           <image
             href={portrait}
-            x={22}
-            y={22}
-            width={76}
-            height={76}
+            x={14}
+            y={14}
+            width={92}
+            height={92}
             preserveAspectRatio="xMidYMid slice"
             clipPath={`url(#${id}-clip)`}
           />
         )}
-        {/* gold ring */}
+
+        {/* outer ring — ocean → foam gradient */}
         <circle
           cx={60}
           cy={60}
-          r={38}
+          r={46}
           fill="none"
-          stroke="var(--gold-deep)"
-          strokeWidth={1.8}
+          stroke={`url(#${id}-ring)`}
+          strokeWidth={2.5}
         />
+        {/* subtle inner highlight */}
         <circle
           cx={60}
           cy={60}
-          r={42}
+          r={49}
           fill="none"
-          stroke="var(--gold-deep)"
-          strokeWidth={0.5}
-          strokeDasharray="2 2"
-          opacity={0.6}
+          stroke="var(--foam)"
+          strokeWidth={0.6}
+          opacity={0.4}
         />
-        {/* crown for top ranks */}
-        {t >= 8 && !locked && (
-          <g transform="translate(60 18)">
-            <polygon
-              points="-10,4 -6,-4 -2,2 0,-6 2,2 6,-4 10,4"
-              fill="var(--gold)"
-              stroke="var(--gold-deep)"
-              strokeWidth={0.8}
-              strokeLinejoin="round"
-            />
-          </g>
-        )}
-        {/* rank number ribbon */}
-        <g transform="translate(60 104)">
+
+        {/* tiny rank chip at bottom */}
+        <g transform="translate(60 110)">
           <rect
-            x={-14}
+            x={-12}
             y={-8}
-            width={28}
-            height={16}
-            rx={3}
-            fill="var(--parchment)"
-            stroke="var(--gold-deep)"
-            strokeWidth={1}
+            width={24}
+            height={14}
+            rx={7}
+            fill="var(--ocean-deep)"
+            stroke="var(--foam)"
+            strokeWidth={0.8}
           />
           <text
             x={0}
-            y={4}
+            y={3}
             textAnchor="middle"
             fontFamily="ui-monospace, monospace"
-            fontSize={10}
+            fontSize={9}
             fontWeight={900}
-            fill="var(--ink)"
+            fill="var(--foam)"
           >
             {String(t + 1).padStart(2, "0")}
           </text>

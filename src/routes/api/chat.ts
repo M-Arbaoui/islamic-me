@@ -1,74 +1,69 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { generateText } from "ai";
+import { convertToModelMessages, streamText, type UIMessage } from "ai";
 import { z } from "zod";
 
 import { createLovableAiGatewayProvider } from "@/lib/ai-gateway.server";
 
+const ContextSchema = z
+  .object({
+    stageIndex: z.number().int().min(0).max(9).optional(),
+    stageName: z.string().max(80).optional(),
+    streakDays: z.number().int().min(0).max(100000).optional(),
+    todayScore: z.number().int().min(0).max(5).optional(),
+    habits: z
+      .object({
+        prayers: z.number().int().min(0).max(5),
+        quran: z.boolean(),
+        dhikr: z.boolean(),
+        restraint: z.boolean(),
+        goodDeed: z.boolean(),
+      })
+      .optional(),
+    profile: z
+      .object({
+        name: z.string().max(40).optional(),
+        struggle: z.string().max(120).optional(),
+        goal: z.string().max(300).optional(),
+      })
+      .optional(),
+  })
+  .optional();
+
 const BodySchema = z.object({
-  mode: z.enum(["roast", "motivate", "analyze"]),
-  stageIndex: z.number().int().min(0).max(9),
-  stageName: z.string().min(1).max(80),
-  streakDays: z.number().int().min(0).max(100000),
-  todayScore: z.number().int().min(0).max(5),
-  habits: z.object({
-    prayers: z.number().int().min(0).max(5),
-    quran: z.boolean(),
-    dhikr: z.boolean(),
-    restraint: z.boolean(),
-    goodDeed: z.boolean(),
-  }),
-  userMessage: z.string().max(800).optional(),
-  profile: z
-    .object({
-      name: z.string().max(40).optional(),
-      struggle: z.string().max(120).optional(),
-      goal: z.string().max(300).optional(),
-    })
-    .optional(),
+  messages: z.array(z.any()).min(1).max(60),
+  context: ContextSchema,
 });
 
-function buildSystem(mode: "roast" | "motivate" | "analyze") {
-  const base = [
-    "أنت 'المرشد' — صوتٌ روحاني داخل تطبيق إسلامي لمجاهدة النفس.",
-    "تتحدث العربية الفصحى البليغة الواضحة، بأسلوب أدبيٍّ مختصر لا متكلَّف.",
-    "تنسيق الإجابة (مهم جداً): استخدم Markdown بثلاث فقرات قصيرة مفصولة بسطر فارغ.",
-    "افتح بسطرٍ واحد قوي مائلٍ بين علامتي * (مثال: *يا صاحبي…*).",
-    "ثم فقرة مركزية من ٢-٣ جمل تخاطب حال المستخدم تحديداً (استعمل أرقام صموده وعباداته).",
-    "ثم اختم بسطر منفصل يبدأ بـ « » يحوي آية قرآنية صحيحة أو حديثاً مشهوراً مع التخريج بين قوسين.",
-    "ممنوع: الفتوى في المسائل الفقهية الخلافية، التكفير، الاستهزاء بالدين، أي عبارة جارحة شخصياً.",
-    "اجعل الإجابة بين ٦٠ و ١٢٠ كلمة.",
+function buildSystem() {
+  return [
+    "أنت 'المُرشد' — صديق روحاني رحيم داخل تطبيق إسلامي اسمه 'طوبى' لتزكية النفس.",
+    "هويتك: أخٌ حنون، صبور، يحبّ المستخدم في الله، لا يجرح ولا يلوم ولا يحكم أبداً.",
+    "أسلوبك: عربية فصحى بسيطة دافئة، قصيرة، بلا تَكَلُّف. نادِ المستخدم باسمه إن عُرف.",
+    "ممنوع تماماً: التوبيخ، السخرية، الجَلْد، التحقير، الكلمات الجارحة، الفتوى الفقهية الخلافية، التكفير، إثارة اليأس أو الذنب الزائد.",
+    "هدفك دائماً: التحفيز، التذكير بالله، رفع الهمّة، اقتراح ذكر أو دعاء أو خطوة صغيرة عملية.",
+    "تنسيق الرد بـ Markdown: فقرة قصيرة (٢-٤ جمل) من القلب، وحين يناسب اقترح ذِكراً قصيراً بين «» أو خطوة عملية واحدة في سطر منفصل بصيغة 'جرّب الآن: ...'.",
+    "اذكر آيةً أو حديثاً (مع التخريج بين قوسين) فقط حين يُثري الحديث، لا في كل رد.",
+    "اجعل الرد بين ٤٠ و ١٢٠ كلمة. هذه محادثة وليست خطبة.",
+    "تابع سياق الرسائل السابقة وابنِ عليها كصديق يصغي.",
   ].join(" ");
-
-  if (mode === "roast") {
-    return (
-      base +
-      " وضع: جَلْد (Roast). المستخدم في يوم ضعيف ويستحق صفعةً روحية. تقمَّص شخصية الشيخ الحازم الذي يحب تلميذه فيوبّخه بسخريةٍ راقيةٍ ذكية — لا شتائم ولا تحقير، بل كشفُ تسويفه ومبرراته الواهية. اذكر اسم النفس الأمّارة وكيف يضحك إبليس عليه الآن. اختم رغم ذلك بشُعاع رجاء."
-    );
-  }
-  if (mode === "motivate") {
-    return (
-      base +
-      " وضع: تحفيز. المستخدم صامد ومستقيم. كن أخاً دافئاً فخوراً، صف له جمال ما يفعله، ذكّره أن الملائكة تشهد له، وحثّه على الإخلاص والاستمرار. حذّره بلطفٍ من العُجب والرياء — بإشارةٍ واحدة لا محاضرة."
-    );
-  }
-  return (
-    base +
-    " وضع: تحليل اعتراف. المستخدم كتب مبرراً لضعفه أو وسوسةً تراوده. فكّك خداع النفس بصدقٍ جراحيّ هادئ: سمِّ نوع الحيلة (تسويف، مقارنة، يأس، عُجب…). ثم اقترح خطوة عملية واحدة صغيرة جداً قابلة للتنفيذ في الدقيقة القادمة (مثل: توضأ الآن، صلِّ ركعتين، اشرب ماءً وقل أستغفر الله ١٠ مرات، أغلق الشاشة ١٠ دقائق)."
-  );
 }
 
-function buildUserContext(input: z.infer<typeof BodySchema>) {
-  const lines = [
-    `المرحلة الحالية: ${input.stageName} (المستوى ${input.stageIndex + 1} من ١٠)`,
-    `أيام الصمود المتواصل: ${input.streakDays}`,
-    `عبادات اليوم: صلوات ${input.habits.prayers}/٥، قرآن ${input.habits.quran ? "✓" : "✗"}، ذِكر ${input.habits.dhikr ? "✓" : "✗"}، ضبط النفس ${input.habits.restraint ? "✓" : "✗"}، عمل صالح ${input.habits.goodDeed ? "✓" : "✗"}`,
-    `مجموع نقاط اليوم: ${input.todayScore}/٥`,
-  ];
-  if (input.profile?.name) lines.unshift(`اسم المستخدم: ${input.profile.name} — نادِه باسمه.`);
-  if (input.profile?.struggle) lines.push(`أكبر تحدٍّ يعاني منه: ${input.profile.struggle}`);
-  if (input.profile?.goal) lines.push(`هدفه الذي وضعه: ${input.profile.goal}`);
-  if (input.userMessage) lines.push(`\nاعتراف المستخدم: "${input.userMessage}"`);
-  return lines.join("\n");
+function buildContextPreamble(ctx?: z.infer<typeof ContextSchema>) {
+  if (!ctx) return "";
+  const lines: string[] = [];
+  if (ctx.profile?.name) lines.push(`اسم المستخدم: ${ctx.profile.name} — نادِه باسمه بحنان.`);
+  if (ctx.stageName != null && ctx.stageIndex != null)
+    lines.push(`رتبته الروحية: ${ctx.stageName} (${ctx.stageIndex + 1}/١٠).`);
+  if (ctx.streakDays != null) lines.push(`أيام صموده المتواصل: ${ctx.streakDays}.`);
+  if (ctx.todayScore != null) lines.push(`نقاط عباداته اليوم: ${ctx.todayScore}/٥.`);
+  if (ctx.habits)
+    lines.push(
+      `اليوم: صلوات ${ctx.habits.prayers}/٥، قرآن ${ctx.habits.quran ? "✓" : "✗"}، ذكر ${ctx.habits.dhikr ? "✓" : "✗"}، ضبط نفس ${ctx.habits.restraint ? "✓" : "✗"}، عمل صالح ${ctx.habits.goodDeed ? "✓" : "✗"}.`,
+    );
+  if (ctx.profile?.struggle) lines.push(`أكبر تحدٍّ يواجهه: ${ctx.profile.struggle}.`);
+  if (ctx.profile?.goal) lines.push(`هدفه: ${ctx.profile.goal}.`);
+  if (lines.length === 0) return "";
+  return `سياق هذا المستخدم (للاستئناس فقط، لا تكرّره حرفياً):\n${lines.join("\n")}`;
 }
 
 export const Route = createFileRoute("/api/chat")({
@@ -91,13 +86,18 @@ export const Route = createFileRoute("/api/chat")({
         const gateway = createLovableAiGatewayProvider(key);
         const model = gateway("google/gemini-2.5-flash");
 
+        const preamble = buildContextPreamble(parsed.context);
+        const system = preamble ? `${buildSystem()}\n\n${preamble}` : buildSystem();
+
         try {
-          const result = await generateText({
+          const result = streamText({
             model,
-            system: buildSystem(parsed.mode),
-            prompt: buildUserContext(parsed),
+            system,
+            messages: await convertToModelMessages(parsed.messages as UIMessage[]),
           });
-          return Response.json({ text: result.text });
+          return result.toUIMessageStreamResponse({
+            originalMessages: parsed.messages as UIMessage[],
+          });
         } catch (err) {
           const msg = err instanceof Error ? err.message : "AI error";
           return new Response(msg, { status: 500 });

@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Home, ListChecks, Sparkles, Map as MapIcon, Moon, Sun, CircleDot } from "lucide-react";
+import { Home, ListChecks, MessageCircleHeart, Map as MapIcon, Moon, Sun, CircleDot } from "lucide-react";
 import type { ReactNode } from "react";
 
 import { useNafsState } from "@/hooks/useNafsState";
@@ -9,7 +9,7 @@ const TABS = [
   { to: "/", label: "البيت", icon: Home, exact: true },
   { to: "/habits", label: "العبادات", icon: ListChecks, exact: false },
   { to: "/tasbih", label: "التسبيح", icon: CircleDot, exact: false },
-  { to: "/guide", label: "المرشد", icon: Sparkles, exact: false },
+  { to: "/guide", label: "المُرشد", icon: MessageCircleHeart, exact: false },
   { to: "/journey", label: "الرحلة", icon: MapIcon, exact: false },
 ] as const;
 
@@ -39,10 +39,10 @@ export function AppShell({ title, subtitle, toneId, rightSlot, children }: Props
             <div className="relative">
               <img
                 src="/app-icon.png"
-                alt="NAFS"
+                alt="طوبى"
                 width={40}
                 height={40}
-                className="w-10 h-10 rounded-xl shadow-lg shadow-[var(--tone-glow)] ring-1 ring-[var(--tone)]/40"
+                className="w-10 h-10 rounded-2xl shadow-lg shadow-[var(--tone-glow)] ring-1 ring-[var(--tone)]/40 object-cover"
               />
               <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-[var(--tone)] ring-2 ring-background pulse-dot" />
             </div>
