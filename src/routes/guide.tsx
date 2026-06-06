@@ -7,13 +7,13 @@ import { useNafsState } from "@/hooks/useNafsState";
 export const Route = createFileRoute("/guide")({
   head: () => ({
     meta: [
-      { title: "المرشد الذكي — مُجاهد النفس" },
+      { title: "المُرشد — طوبى" },
       {
         name: "description",
-        content: "مرشد ذكي يجلدك حين تضعف، يحفّزك حين تصمد، ويحلّل اعترافاتك.",
+        content: "تحدّث مع المُرشد: صديق روحاني رحيم يُذكّر بالله، يُحفّزك، ولا يلوم.",
       },
-      { property: "og:title", content: "المرشد الذكي" },
-      { property: "og:description", content: "AI روحاني لمجاهدة النفس." },
+      { property: "og:title", content: "المُرشد · طوبى" },
+      { property: "og:description", content: "محادثة رحيمة تُذكّرك بالله وتنهض بهمّتك." },
     ],
   }),
   component: GuidePage,
@@ -24,9 +24,9 @@ function GuidePage() {
   if (!s.ready || !s.state) return <div className="min-h-screen" />;
 
   return (
-    <AppShell title="المرشد الذكي" subtitle="The AI Mentor" toneId={s.stage.toneId}>
+    <AppShell title="المُرشد" subtitle="Tuba · The Gentle Mentor" toneId={s.stage.toneId}>
       <div className="space-y-4">
-        <section className="glass rounded-2xl p-4 flex items-center justify-between gap-3">
+        <section className="paper rounded-2xl p-4 flex items-center justify-between gap-3">
           <div className="text-right flex-1">
             <div className="text-[10px] font-bold text-muted-foreground tracking-widest">
               رتبتك الحاليّة
@@ -36,7 +36,7 @@ function GuidePage() {
               {s.streakDays} يوم صمود · {s.todayPts}/5 اليوم
             </div>
           </div>
-          <div className="text-4xl">🗡️</div>
+          <div className="text-4xl">🌿</div>
         </section>
 
         <AiAdvisor
